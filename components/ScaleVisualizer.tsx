@@ -17,6 +17,8 @@ const NATURAL_PPMM = 3.75;
 
 interface ScaleVisualizerProps {
   scaledValueMm: number | null;
+  /** When set (e.g. catalog selection), shown as the result context label. */
+  resultLabel?: string | null;
 }
 
 function ReferenceSvgShape({ refObj }: { refObj: ReturnType<typeof getReferenceById> }) {
@@ -46,7 +48,7 @@ function ReferenceSvgShape({ refObj }: { refObj: ReturnType<typeof getReferenceB
   );
 }
 
-export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
+export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisualizerProps) {
   const baseId = useId();
   const referenceSelectId = `${baseId}-reference`;
   const fitToggleId = `${baseId}-fit`;
@@ -84,14 +86,19 @@ export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
 
     const innerW = refW + GAP_MM + resultW;
     const innerH = Math.max(refH, resultH);
-    const vbW = innerW + PAD_MM * 2;
-    const vbH = innerH + PAD_MM * 2;
+    const hasSizedResult = resultLenMm > 0;
+    const labelPad =
+      resultLabel && hasSizedResult ? 5 : 0;
 
+    const vbW = innerW + PAD_MM * 2;
+    const vbH = labelPad + PAD_MM + innerH + PAD_MM;
+
+    const blockTop = labelPad + PAD_MM;
     const refX = PAD_MM;
-    const refY = PAD_MM + (innerH - refH) / 2;
+    const refY = blockTop + (innerH - refH) / 2;
 
     const resultX = PAD_MM + refW + GAP_MM;
-    const resultY = PAD_MM + (innerH - resultH) / 2;
+    const resultY = blockTop + (innerH - resultH) / 2;
 
     return {
       vbW,
@@ -104,8 +111,11 @@ export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
       resultH,
       innerW,
       innerH,
+      labelPad,
+      resultLabelX: resultX + resultW / 2,
+      resultLabelY: labelPad > 0 ? labelPad / 2 : 0,
     };
-  }, [refObj, scaledValueMm]);
+  }, [refObj, scaledValueMm, resultLabel]);
 
   const naturalWidthPx = scene.vbW * NATURAL_PPMM;
   const needsFit =
@@ -144,7 +154,7 @@ export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
             id={referenceSelectId}
             value={referenceId}
             onChange={(e) => setReferenceId(e.target.value as ReferenceId)}
-            className="w-full max-w-xs rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:focus:ring-neutral-500 sm:w-auto"
+            className="min-h-11 w-full max-w-xs rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:focus:ring-neutral-500 sm:w-auto"
           >
             {REFERENCE_OBJECTS.map((r) => (
               <option key={r.id} value={r.id}>
@@ -155,15 +165,18 @@ export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
         </div>
 
         {needsFit ? (
-          <div className="flex items-center gap-2">
+          <div className="flex min-h-11 items-center gap-2">
             <input
               id={fitToggleId}
               type="checkbox"
               checked={scaleToFit}
               onChange={(e) => setScaleToFit(e.target.checked)}
-              className="size-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-400 dark:border-neutral-600 dark:bg-neutral-950 dark:focus:ring-neutral-500"
+              className="size-5 shrink-0 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-400 dark:border-neutral-600 dark:bg-neutral-950 dark:focus:ring-neutral-500"
             />
-            <label htmlFor={fitToggleId} className="text-sm text-neutral-700 dark:text-neutral-300">
+            <label
+              htmlFor={fitToggleId}
+              className="cursor-pointer text-sm leading-snug text-neutral-700 dark:text-neutral-300"
+            >
               Scale to fit
             </label>
           </div>
@@ -216,6 +229,18 @@ export function ScaleVisualizer({ scaledValueMm }: ScaleVisualizerProps) {
                   className="fill-neutral-800 stroke-neutral-950 dark:fill-neutral-100 dark:stroke-neutral-50"
                   strokeWidth={0.35}
                 />
+                {resultLabel && scene.labelPad > 0 ? (
+                  <text
+                    x={scene.resultLabelX}
+                    y={scene.resultLabelY}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="fill-neutral-700 dark:fill-neutral-200"
+                    style={{ fontSize: 2.75 }}
+                  >
+                    {resultLabel.length > 36 ? `${resultLabel.slice(0, 34)}…` : resultLabel}
+                  </text>
+                ) : null}
               </>
             ) : (
               <text

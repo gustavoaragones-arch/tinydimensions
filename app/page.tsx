@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import { MeasurementEngine } from "@/components/MeasurementEngine";
+import { MeasurementWorkspace } from "@/components/MeasurementWorkspace";
+import { buildSiteKeywords } from "@/lib/seo-keywords";
+import { getSiteUrl } from "@/lib/site-url";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://tinydimensions.com";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "TinyDimensions — Scale-aware measurements",
   description:
     "Convert real-world lengths to scaled model dimensions with architectural and hobbyist presets. Logic-first, millimeter-accurate engine.",
+  keywords: buildSiteKeywords(),
   alternates: {
     canonical: siteUrl,
   },
@@ -31,8 +33,8 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
-        <MeasurementEngine />
+      <div className="flex flex-1 flex-col bg-neutral-50 dark:bg-neutral-950">
+        <MeasurementWorkspace />
       </div>
     </>
   );

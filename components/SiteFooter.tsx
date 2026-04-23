@@ -1,0 +1,38 @@
+import Link from "next/link";
+
+export function SiteFooter() {
+  return (
+    <footer className="mt-auto border-t border-neutral-200 bg-white text-neutral-800 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200">
+      <div className="mx-auto max-w-5xl px-4 py-8">
+        <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+          A Product by Albor Digital.
+        </p>
+        <p className="mt-2 max-w-2xl text-xs text-neutral-500 dark:text-neutral-400">
+          Results are for educational and hobbyist use only. Verify dimensions for professional
+          construction.
+        </p>
+        <nav
+          className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-neutral-700 underline-offset-4 dark:text-neutral-300"
+          aria-label="Legal"
+        >
+          <Link className="hover:underline" href="/terms">
+            Terms
+          </Link>
+          <Link className="hover:underline" href="/privacy">
+            Privacy
+          </Link>
+          <Link
+            className="hover:underline"
+            href="/disclaimer"
+            title="See Albor_Digital_Legal_Documents.pdf"
+          >
+            Disclaimer
+          </Link>
+          <span className="text-xs text-neutral-500 no-underline dark:text-neutral-500">
+            Legal pack: Albor_Digital_Legal_Documents.pdf
+          </span>
+        </nav>
+      </div>
+    </footer>
+  );
+}
