@@ -4,6 +4,7 @@ import { SCALE_PRESETS } from "@/lib/math-engine";
 const BASE_KEYWORDS = [
   "TinyDimensions",
   "About TinyDimensions",
+  "Standard object catalog",
   "scale drawing",
   "architectural scale",
   "model scale",

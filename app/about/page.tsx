@@ -7,7 +7,7 @@ const base = getSiteUrl();
 export const metadata: Metadata = {
   title: "About",
   description:
-    "TinyDimensions is a scale-aware measurement engine by Albor Digital — precision for the smallest details.",
+    "TinyDimensions is a scale-aware measurement engine created by Albor Digital LLC — precision for the smallest details.",
   alternates: { canonical: `${base}/about` },
 };
 

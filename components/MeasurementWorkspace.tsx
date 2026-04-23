@@ -48,12 +48,17 @@ export function MeasurementWorkspace() {
         />
 
         {isLg ? (
-          <aside className="td-panel min-w-0 p-3 dark:bg-neutral-900/50">{catalogInner}</aside>
+          <aside id="catalog" className="td-panel min-w-0 scroll-mt-24 p-3 dark:bg-neutral-900/50">
+            {catalogInner}
+          </aside>
         ) : null}
       </div>
 
       {!isLg ? (
-        <details className="td-panel mx-auto mt-6 max-w-xl overflow-hidden open:shadow-md lg:max-w-none dark:bg-neutral-900/50">
+        <details
+          id="catalog"
+          className="td-panel mx-auto mt-6 max-w-xl scroll-mt-24 overflow-hidden open:shadow-md lg:max-w-none dark:bg-neutral-900/50"
+        >
           <summary className="td-summary">Browse standard objects</summary>
           <div className="border-t border-neutral-200 p-3 dark:border-neutral-800">{catalogInner}</div>
         </details>

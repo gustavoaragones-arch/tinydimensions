@@ -64,17 +64,20 @@ export default function DisclaimerPage() {
       </section>
 
       <aside
-        className="mt-12 rounded-md border border-neutral-300 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-900/60"
+        className="mt-12 rounded-lg border-2 border-amber-600/45 bg-amber-50 p-6 shadow-sm dark:border-amber-500/50 dark:bg-amber-950/35 dark:shadow-none"
         aria-labelledby="responsible-ai-footer"
       >
-        <h2 id="responsible-ai-footer" className="font-sans text-xs font-semibold uppercase tracking-wide text-neutral-600 dark:text-neutral-400">
+        <h2
+          id="responsible-ai-footer"
+          className="font-sans text-xs font-semibold uppercase tracking-wide text-amber-950 dark:text-amber-100"
+        >
           Responsible AI
         </h2>
-        <p className="mt-2 font-mono text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">
+        <p className="mt-3 font-mono text-sm font-medium leading-relaxed text-amber-950 dark:text-amber-50 md:text-base">
           Results are for educational and hobbyist use only. Verify dimensions for professional
           construction.
         </p>
-        <p className="mt-3 text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
+        <p className="mt-4 text-sm leading-relaxed text-amber-950/90 dark:text-amber-100/90">
           Automated suggestions and catalog data are informational only — confirm every dimension
           before you build or manufacture.
         </p>

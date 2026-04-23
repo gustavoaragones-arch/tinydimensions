@@ -95,11 +95,12 @@ export function MeasurementEngine({
 
   return (
     <main className="mx-auto w-full max-w-none text-neutral-900 dark:text-neutral-100">
-      <header className="mb-8 space-y-2">
-        <h1 className="text-xl font-semibold tracking-tight">Measurement engine</h1>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          Real-world length to model size using a fixed scale. Results rounded to three decimal
-          places.
+      <header className="mb-6">
+        <h1 className="font-sans text-lg font-semibold tracking-tight text-neutral-950 dark:text-neutral-50">
+          Convert &amp; compare
+        </h1>
+        <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">
+          Set real length, unit, and drawing scale — then read the scaled strip and workbench.
         </p>
       </header>
 

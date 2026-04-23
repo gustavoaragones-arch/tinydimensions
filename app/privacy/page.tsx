@@ -24,8 +24,18 @@ export default function PrivacyPage() {
           (names, addresses) to use the engine.
         </p>
         <p>
-          <strong>Usage data:</strong> We use Vercel Analytics to collect anonymized data such as page
-          views and common scale selections to improve the tool&apos;s performance.
+          <strong>Usage data:</strong> We use{" "}
+          <a
+            href="https://vercel.com/docs/analytics"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
+          >
+            Vercel Analytics
+          </a>{" "}
+          to collect anonymized data such as page views and common scale selections to improve the
+          tool&apos;s performance. Vercel processes this data according to its own policies and
+          infrastructure safeguards.
         </p>
       </section>
 
