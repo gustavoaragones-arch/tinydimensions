@@ -144,17 +144,14 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
     >
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div className="space-y-2">
-          <label
-            htmlFor={referenceSelectId}
-            className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400"
-          >
+          <label htmlFor={referenceSelectId} className="td-label">
             Reference object
           </label>
           <select
             id={referenceSelectId}
             value={referenceId}
             onChange={(e) => setReferenceId(e.target.value as ReferenceId)}
-            className="min-h-11 w-full max-w-xs rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:focus:ring-neutral-500 sm:w-auto"
+            className="td-field td-field--select w-full max-w-xs sm:w-auto"
           >
             {REFERENCE_OBJECTS.map((r) => (
               <option key={r.id} value={r.id}>
@@ -165,13 +162,13 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
         </div>
 
         {needsFit ? (
-          <div className="flex min-h-11 items-center gap-2">
+          <div className="flex min-h-11 items-center gap-3 px-0.5">
             <input
               id={fitToggleId}
               type="checkbox"
               checked={scaleToFit}
               onChange={(e) => setScaleToFit(e.target.checked)}
-              className="size-5 shrink-0 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-400 dark:border-neutral-600 dark:bg-neutral-950 dark:focus:ring-neutral-500"
+              className="td-checkbox"
             />
             <label
               htmlFor={fitToggleId}
@@ -198,8 +195,7 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
       <div
         ref={containerRef}
         className={[
-          "rounded-md border border-neutral-200 dark:border-neutral-800",
-          "bg-neutral-100/80 [background-size:10px_10px] dark:bg-neutral-950/60",
+          "rounded-lg border border-neutral-200/90 bg-neutral-100/90 shadow-sm [background-size:10px_10px] dark:border-neutral-700 dark:bg-neutral-950/70",
           "[background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)]",
           "dark:[background-image:linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)]",
           needsFit && !scaleToFit ? "overflow-x-auto" : "overflow-hidden",

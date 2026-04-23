@@ -28,19 +28,14 @@ export function ObjectCatalog({ onSelectObject }: ObjectCatalogProps) {
   return (
     <nav aria-label="Standard object catalog" className="space-y-3">
       <div className="space-y-1">
-        <h2 className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
-          Quick-load catalog
-        </h2>
+        <h2 className="td-label">Quick-load catalog</h2>
         <p className="text-xs text-neutral-600 dark:text-neutral-400">
           Pick a reference length; values load into the engine in millimeters.
         </p>
       </div>
 
       <div className="space-y-2">
-        <label
-          htmlFor={searchId}
-          className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400"
-        >
+        <label htmlFor={searchId} className="td-label">
           Search
         </label>
         <input
@@ -49,7 +44,7 @@ export function ObjectCatalog({ onSelectObject }: ObjectCatalogProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Door, brick, container…"
-          className="min-h-11 w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:ring-neutral-500"
+          className="td-field"
         />
       </div>
 
@@ -57,12 +52,8 @@ export function ObjectCatalog({ onSelectObject }: ObjectCatalogProps) {
         <button
           type="button"
           onClick={() => setCategory("all")}
-          className={[
-            "min-h-11 rounded-full border px-3 text-xs font-medium transition-colors",
-            category === "all"
-              ? "border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900"
-              : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900",
-          ].join(" ")}
+          className="td-chip"
+          aria-pressed={category === "all"}
         >
           All
         </button>
@@ -71,12 +62,8 @@ export function ObjectCatalog({ onSelectObject }: ObjectCatalogProps) {
             key={c.id}
             type="button"
             onClick={() => setCategory(c.id)}
-            className={[
-              "min-h-11 rounded-full border px-3 text-xs font-medium transition-colors",
-              category === c.id
-                ? "border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900"
-                : "border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900",
-            ].join(" ")}
+            className="td-chip"
+            aria-pressed={category === c.id}
           >
             {c.tag}
           </button>
@@ -89,7 +76,7 @@ export function ObjectCatalog({ onSelectObject }: ObjectCatalogProps) {
             <button
               type="button"
               onClick={() => onSelectObject(obj)}
-              className="flex min-h-11 w-full flex-col justify-center rounded-md border border-transparent px-2 py-2 text-left text-sm transition-colors hover:border-neutral-200 hover:bg-neutral-50 dark:hover:border-neutral-700 dark:hover:bg-neutral-900/60"
+              className="td-catalog-item"
             >
               <span className="font-medium text-neutral-900 dark:text-neutral-100">{obj.label}</span>
               <span className="font-mono text-xs tabular-nums text-neutral-600 dark:text-neutral-400">

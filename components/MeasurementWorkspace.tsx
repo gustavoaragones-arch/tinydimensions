@@ -32,11 +32,7 @@ export function MeasurementWorkspace() {
     setActiveCatalogLabel(object.label);
   }, []);
 
-  const catalog = (
-    <div className="rounded-lg border border-neutral-200 bg-white p-3 dark:border-neutral-800 dark:bg-neutral-900/40">
-      <ObjectCatalog onSelectObject={handleSelectObject} />
-    </div>
-  );
+  const catalogInner = <ObjectCatalog onSelectObject={handleSelectObject} />;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6">
@@ -51,15 +47,15 @@ export function MeasurementWorkspace() {
           onScaleChange={setScale}
         />
 
-        {isLg ? <aside className="min-w-0">{catalog}</aside> : null}
+        {isLg ? (
+          <aside className="td-panel min-w-0 p-3 dark:bg-neutral-900/50">{catalogInner}</aside>
+        ) : null}
       </div>
 
       {!isLg ? (
-        <details className="mx-auto mt-6 max-w-xl rounded-lg border border-neutral-200 bg-white open:shadow-sm dark:border-neutral-800 dark:bg-neutral-900/40 lg:max-w-none">
-          <summary className="flex min-h-11 cursor-pointer select-none items-center px-3 text-sm font-medium text-neutral-800 dark:text-neutral-200">
-            Browse standard objects
-          </summary>
-          <div className="border-t border-neutral-200 p-3 dark:border-neutral-800">{catalog}</div>
+        <details className="td-panel mx-auto mt-6 max-w-xl overflow-hidden open:shadow-md lg:max-w-none dark:bg-neutral-900/50">
+          <summary className="td-summary">Browse standard objects</summary>
+          <div className="border-t border-neutral-200 p-3 dark:border-neutral-800">{catalogInner}</div>
         </details>
       ) : null}
     </div>
