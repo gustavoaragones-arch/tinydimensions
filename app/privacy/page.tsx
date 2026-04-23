@@ -1,34 +1,70 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { LongFormShell, h2Class, monoNoteClass } from "@/components/LongFormShell";
 import { getSiteUrl } from "@/lib/site-url";
 
 const base = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Privacy",
-  description: "Privacy information for TinyDimensions by Albor Digital.",
+  title: "Privacy Policy",
+  description:
+    "Privacy Policy for TinyDimensions — privacy-first measurement tools by Albor Digital LLC.",
   alternates: { canonical: `${base}/privacy` },
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="mx-auto max-w-2xl flex-1 px-4 py-10 text-neutral-900 dark:text-neutral-100">
-      <main>
-        <h1 className="text-2xl font-semibold tracking-tight">Privacy</h1>
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
-          This page is a placeholder. Privacy commitments and data practices for Albor Digital are
-          documented in{" "}
-          <span className="font-mono text-neutral-800 dark:text-neutral-200">
-            Albor_Digital_Legal_Documents.pdf
-          </span>
-          . Replace this route with your finalized privacy policy when ready.
+    <LongFormShell title="Privacy Policy" eyebrow="Effective date: January 1, 2026">
+      <section aria-labelledby="collection-heading">
+        <h2 id="collection-heading" className={h2Class}>
+          1. Data collection
+        </h2>
+        <p>TinyDimensions is designed with a &quot;Privacy-First&quot; mindset.</p>
+        <p>
+          <strong>Personal data:</strong> We do not require an account or collect personal identifiers
+          (names, addresses) to use the engine.
         </p>
-        <p className="mt-6">
-          <Link href="/" className="text-sm font-medium text-neutral-900 underline dark:text-neutral-100">
-            Back to TinyDimensions
-          </Link>
+        <p>
+          <strong>Usage data:</strong> We use Vercel Analytics to collect anonymized data such as page
+          views and common scale selections to improve the tool&apos;s performance.
         </p>
-      </main>
-    </div>
+      </section>
+
+      <section aria-labelledby="cookies-heading">
+        <h2 id="cookies-heading" className={h2Class}>
+          2. Cookies
+        </h2>
+        <p>
+          We use strictly necessary cookies to maintain your unit preferences (e.g., keeping the engine
+          set to metric or imperial) during your session.
+        </p>
+      </section>
+
+      <section aria-labelledby="third-heading">
+        <h2 id="third-heading" className={h2Class}>
+          3. Third-party services
+        </h2>
+        <p>
+          We may use third-party analytics and affiliate networks (such as Amazon Associates). These
+          services have their own privacy policies regarding tracking.
+        </p>
+      </section>
+
+      <section aria-labelledby="rights-heading">
+        <h2 id="rights-heading" className={h2Class}>
+          4. Your rights
+        </h2>
+        <p>
+          Since we do not store personal profiles, there is no data to delete or port. For any privacy
+          inquiries, contact us at{" "}
+          <a
+            href="mailto:contact@tinydimensions.com"
+            className={`${monoNoteClass} underline underline-offset-2`}
+          >
+            contact@tinydimensions.com
+          </a>
+          .
+        </p>
+      </section>
+    </LongFormShell>
   );
 }

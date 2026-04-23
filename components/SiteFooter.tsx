@@ -13,24 +13,20 @@ export function SiteFooter() {
         </p>
         <nav
           className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-neutral-700 underline-offset-4 dark:text-neutral-300"
-          aria-label="Legal"
+          aria-label="Site and legal"
         >
+          <Link className="hover:underline" href="/about">
+            About
+          </Link>
           <Link className="hover:underline" href="/terms">
             Terms
           </Link>
           <Link className="hover:underline" href="/privacy">
             Privacy
           </Link>
-          <Link
-            className="hover:underline"
-            href="/disclaimer"
-            title="See Albor_Digital_Legal_Documents.pdf"
-          >
+          <Link className="hover:underline" href="/disclaimer">
             Disclaimer
           </Link>
-          <span className="text-xs text-neutral-500 no-underline dark:text-neutral-500">
-            Legal pack: Albor_Digital_Legal_Documents.pdf
-          </span>
         </nav>
       </div>
     </footer>

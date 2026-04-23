@@ -3,6 +3,7 @@ import { SCALE_PRESETS } from "@/lib/math-engine";
 
 const BASE_KEYWORDS = [
   "TinyDimensions",
+  "About TinyDimensions",
   "scale drawing",
   "architectural scale",
   "model scale",

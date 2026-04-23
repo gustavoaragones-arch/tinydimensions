@@ -1,33 +1,79 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { LongFormShell, h2Class, monoNoteClass } from "@/components/LongFormShell";
 import { getSiteUrl } from "@/lib/site-url";
 
 const base = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Terms of use",
-  description: "Terms of use for TinyDimensions by Albor Digital.",
+  title: "Terms of Service",
+  description: "Terms of Service for TinyDimensions.com, a property of Albor Digital LLC.",
   alternates: { canonical: `${base}/terms` },
 };
 
 export default function TermsPage() {
   return (
-    <div className="mx-auto max-w-2xl flex-1 px-4 py-10 text-neutral-900 dark:text-neutral-100">
-      <main>
-        <h1 className="text-2xl font-semibold tracking-tight">Terms of use</h1>
-        <p className="mt-4 text-sm text-neutral-600 dark:text-neutral-400">
-          This page is a placeholder. The governing terms for Albor Digital products are provided in{" "}
-          <span className="font-mono text-neutral-800 dark:text-neutral-200">
-            Albor_Digital_Legal_Documents.pdf
-          </span>
-          . Replace this route with your finalized policy text when ready.
+    <LongFormShell title="Terms of Service" eyebrow="Last updated: April 2026">
+      <section aria-labelledby="accept-heading">
+        <h2 id="accept-heading" className={h2Class}>
+          1. Acceptance of terms
+        </h2>
+        <p>
+          By accessing or using TinyDimensions.com, a property of <strong>Albor Digital LLC</strong>{" "}
+          (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), you agree to be bound by these Terms of
+          Service. If you do not agree, please do not use the tool.
         </p>
-        <p className="mt-6">
-          <Link href="/" className="text-sm font-medium text-neutral-900 underline dark:text-neutral-100">
-            Back to TinyDimensions
-          </Link>
+      </section>
+
+      <section aria-labelledby="use-heading">
+        <h2 id="use-heading" className={h2Class}>
+          2. Use of the service
+        </h2>
+        <p>
+          TinyDimensions provides a measurement conversion utility for educational, architectural, and
+          hobbyist purposes. You agree to use the service only for lawful purposes.
         </p>
-      </main>
-    </div>
+      </section>
+
+      <section aria-labelledby="ip-heading">
+        <h2 id="ip-heading" className={h2Class}>
+          3. Intellectual property
+        </h2>
+        <p>
+          The &quot;TinyDimensions&quot; brand, logo, and the custom code powering the measurement
+          engine are the exclusive property of Albor Digital LLC.
+        </p>
+      </section>
+
+      <section aria-labelledby="liability-heading">
+        <h2 id="liability-heading" className={h2Class}>
+          4. Limitation of liability
+        </h2>
+        <p>
+          TinyDimensions is provided &quot;as is&quot; without any warranties. While we strive for extreme
+          precision, we are not liable for any errors in construction, manufacturing, or design
+          resulting from the use of this tool.
+        </p>
+      </section>
+
+      <section aria-labelledby="termination-heading">
+        <h2 id="termination-heading" className={h2Class}>
+          5. Termination
+        </h2>
+        <p>
+          We reserve the right to modify or terminate the service at any time without notice.
+        </p>
+      </section>
+
+      <section aria-labelledby="contact-heading">
+        <h2 id="contact-heading" className={h2Class}>
+          Contact
+        </h2>
+        <p className={monoNoteClass}>
+          <a href="mailto:contact@tinydimensions.com" className="underline underline-offset-2">
+            contact@tinydimensions.com
+          </a>
+        </p>
+      </section>
+    </LongFormShell>
   );
 }
