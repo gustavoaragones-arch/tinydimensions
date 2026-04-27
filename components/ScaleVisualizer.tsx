@@ -23,12 +23,11 @@ interface ScaleVisualizerProps {
 
 function ReferenceSvgShape({ refObj }: { refObj: ReturnType<typeof getReferenceById> }) {
   if (refObj.shape === "circle") {
-    const d = refObj.widthMm;
-    const r = d / 2;
+    const r = refObj.widthMm / 2;
     return (
       <circle
-        cx={r}
-        cy={r}
+        cx={0}
+        cy={0}
         r={r}
         className="fill-neutral-200 stroke-neutral-500 dark:fill-neutral-800 dark:stroke-neutral-400"
         strokeWidth={0.35}
@@ -84,42 +83,49 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
     const refW = refObj.widthMm;
     const refH = refObj.heightMm;
 
-    const innerW = refW + GAP_MM + resultW;
-    const innerH = Math.max(refH, resultH);
     const hasSizedResult = resultLenMm > 0;
-    const labelPad =
-      resultLabel && hasSizedResult ? 5 : 0;
+    const labelPad = resultLabel && hasSizedResult ? 5 : 0;
 
-    const vbW = innerW + PAD_MM * 2;
-    const vbH = labelPad + PAD_MM + innerH + PAD_MM;
+    if (!hasSizedResult) {
+      const idleSide = Math.max(refW, refH, 56) + PAD_MM * 2;
+      return {
+        S: idleSide,
+        stackH: 0,
+        refCenterY: 0,
+        resCenterY: 0,
+        resultW,
+        resultH,
+        labelPad: 0,
+        resultLabelX: 0,
+        resultLabelY: 0,
+      };
+    }
 
-    const blockTop = labelPad + PAD_MM;
-    const refX = PAD_MM;
-    const refY = blockTop + (innerH - refH) / 2;
+    /** Vertical stack: optional label, reference, gap, result — centered on y = 0. */
+    const stackH = labelPad + refH + GAP_MM + resultH;
+    const stackW = Math.max(refW, resultW);
+    const innerMax = Math.max(stackW, stackH);
+    const S = innerMax + PAD_MM * 2;
 
-    const resultX = PAD_MM + refW + GAP_MM;
-    const resultY = blockTop + (innerH - resultH) / 2;
+    const refCenterY = -stackH / 2 + labelPad + refH / 2;
+    const resCenterY = refCenterY + refH / 2 + GAP_MM + resultH / 2;
 
     return {
-      vbW,
-      vbH,
-      refX,
-      refY,
-      resultX,
-      resultY,
+      S,
+      stackH,
+      refCenterY,
+      resCenterY,
       resultW,
       resultH,
-      innerW,
-      innerH,
       labelPad,
-      resultLabelX: resultX + resultW / 2,
-      resultLabelY: labelPad > 0 ? labelPad / 2 : 0,
+      resultLabelX: 0,
+      resultLabelY: labelPad > 0 ? -stackH / 2 + labelPad / 2 : 0,
     };
   }, [refObj, scaledValueMm, resultLabel]);
 
-  const naturalWidthPx = scene.vbW * NATURAL_PPMM;
+  const naturalSidePx = scene.S * NATURAL_PPMM;
   const needsFit =
-    containerWidthPx > 0 && naturalWidthPx > containerWidthPx - 1; // 1px tolerance
+    containerWidthPx > 0 && naturalSidePx > containerWidthPx - 1; // 1px tolerance
 
   const ppmm = useMemo(() => {
     if (containerWidthPx <= 0) {
@@ -129,11 +135,10 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
       return NATURAL_PPMM;
     }
     const targetPx = Math.max(containerWidthPx - 8, 64);
-    return targetPx / scene.vbW;
-  }, [containerWidthPx, needsFit, scaleToFit, scene.vbW]);
+    return targetPx / scene.S;
+  }, [containerWidthPx, needsFit, scaleToFit, scene.S]);
 
-  const svgWidthPx = scene.vbW * ppmm;
-  const svgHeightPx = scene.vbH * ppmm;
+  const svgSidePx = scene.S * ppmm;
 
   const showResult = scaledValueMm !== null && Number.isFinite(scaledValueMm) && scaledValueMm >= 0;
 
@@ -188,37 +193,49 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
 
       {needsFit && !scaleToFit ? (
         <p className="text-xs text-neutral-600 dark:text-neutral-400">
-          True-scale preview — scroll horizontally if the bench extends past the screen.
+          True-scale preview — scroll if the workbench extends past the square.
         </p>
       ) : null}
 
       <div
         ref={containerRef}
         className={[
-          "rounded-lg border border-neutral-200/90 bg-neutral-100/90 shadow-sm [background-size:10px_10px] dark:border-neutral-700 dark:bg-neutral-950/70",
+          "relative mx-auto aspect-square w-full max-w-xl rounded-lg border border-neutral-200/90 bg-neutral-100/90 bg-center shadow-sm [background-size:10px_10px] dark:border-neutral-700 dark:bg-neutral-950/70",
           "[background-image:linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)]",
           "dark:[background-image:linear-gradient(to_right,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)]",
-          needsFit && !scaleToFit ? "overflow-x-auto" : "overflow-hidden",
+          "overflow-hidden",
         ].join(" ")}
       >
-        <div className={needsFit && !scaleToFit ? "min-w-0 py-4 pr-2 pl-2" : "py-4 pr-2 pl-2"}>
+        <div
+          className={
+            needsFit && !scaleToFit
+              ? "flex h-full w-full items-start justify-start overflow-auto p-0"
+              : "flex h-full min-h-0 w-full items-center justify-center overflow-hidden p-0"
+          }
+        >
           <svg
-            viewBox={`0 0 ${scene.vbW} ${scene.vbH}`}
-            width={svgWidthPx}
-            height={svgHeightPx}
+            viewBox={`${-scene.S / 2} ${-scene.S / 2} ${scene.S} ${scene.S}`}
+            width={svgSidePx}
+            height={svgSidePx}
             role="img"
             aria-label="Workbench comparison of reference object and scaled length"
-            className="mx-auto block max-w-none transition-[width,height] duration-300 ease-out"
+            className="block max-w-none shrink-0 transition-[width,height] duration-300 ease-out"
           >
             <title>Reference and scaled length</title>
             {showResult && scene.resultW > 0 ? (
               <>
-                <g transform={`translate(${scene.refX}, ${scene.refY})`}>
-                  <ReferenceSvgShape refObj={refObj} />
-                </g>
+                {refObj.shape === "circle" ? (
+                  <g transform={`translate(0, ${scene.refCenterY})`}>
+                    <ReferenceSvgShape refObj={refObj} />
+                  </g>
+                ) : (
+                  <g transform={`translate(${-refObj.widthMm / 2}, ${scene.refCenterY - refObj.heightMm / 2})`}>
+                    <ReferenceSvgShape refObj={refObj} />
+                  </g>
+                )}
                 <rect
-                  x={scene.resultX}
-                  y={scene.resultY}
+                  x={-scene.resultW / 2}
+                  y={scene.resCenterY - scene.resultH / 2}
                   width={scene.resultW}
                   height={scene.resultH}
                   rx={1}
@@ -240,8 +257,8 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
               </>
             ) : (
               <text
-                x={scene.vbW / 2}
-                y={scene.vbH / 2}
+                x={0}
+                y={0}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="fill-neutral-500 dark:fill-neutral-400"
