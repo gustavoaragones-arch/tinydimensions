@@ -36,7 +36,7 @@ export function MeasurementWorkspace() {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start">
+      <div className="grid gap-6 lg:mx-auto lg:w-max lg:max-w-full lg:grid-cols-[minmax(0,40rem)_17.5rem] lg:items-start lg:gap-x-8">
         <MeasurementEngine
           rawValue={rawValue}
           unit={unit}

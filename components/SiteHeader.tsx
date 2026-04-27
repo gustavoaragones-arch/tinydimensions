@@ -9,7 +9,7 @@ const navLinkClass =
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+    <header className="border-b border-neutral-100 bg-white dark:border-neutral-800 dark:bg-neutral-950">
       <div className="mx-auto max-w-5xl px-4 py-4 md:px-6 md:py-5">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-8">
           <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
@@ -25,12 +25,12 @@ export function SiteHeader() {
                 priority
                 className="size-10 shrink-0"
               />
-              <span className="font-sans text-lg font-semibold tracking-tight text-neutral-950 lowercase dark:text-neutral-50">
+              <span className="font-sans text-lg font-semibold tracking-tighter text-neutral-900 lowercase dark:text-neutral-50">
                 tinydimensions
               </span>
             </Link>
           </div>
-          <p className="max-w-xl text-xs leading-relaxed text-neutral-600 md:max-w-md md:text-right dark:text-neutral-400">
+          <p className="max-w-prose text-sm font-normal leading-relaxed text-neutral-600 md:max-w-md md:text-right dark:text-neutral-500">
             {MISSION}
           </p>
         </div>

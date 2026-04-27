@@ -3,7 +3,6 @@
 import { useCallback, useId, useMemo, useRef, useState } from "react";
 import type { LengthUnit, ScalePreset } from "@/lib/math-engine";
 import { ScaleVisualizer } from "@/components/ScaleVisualizer";
-import { ToolsSponsorship } from "@/components/ToolsSponsorship";
 import {
   mmToAllUnits,
   normalizeToMm,
@@ -178,7 +177,6 @@ export function MeasurementEngine({
               ))}
             </optgroup>
           </select>
-          <ToolsSponsorship category={scale.category} />
         </section>
 
         <section className="space-y-3 border-t border-neutral-200 pt-4 dark:border-neutral-800">
@@ -208,7 +206,9 @@ export function MeasurementEngine({
               {resultLine ?? "—"}
             </output>
           </div>
-          <ScaleVisualizer scaledValueMm={scaledMm} resultLabel={activeCatalogLabel} />
+          <div className="mt-10">
+            <ScaleVisualizer scaledValueMm={scaledMm} resultLabel={activeCatalogLabel} />
+          </div>
           <p className="text-xs text-neutral-500 dark:text-neutral-400">
             Same model length expressed in mm, cm, m, in, and ft at {scale.label}.
           </p>
