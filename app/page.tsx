@@ -8,7 +8,7 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   title: "Instant Scale Measurement Calculator for Models & Architecture",
   description:
-    "Convert real-world lengths to scaled model dimensions with architectural, diecast, and kit presets. Millimeter-accurate engine; three-decimal readouts.",
+    "Scale measurement calculator for architectural, diecast, and model-railroad ratios. Convert prototype lengths to scaled millimetres with fixed presets and multi-unit readouts.",
   keywords: buildSiteKeywords(),
   alternates: {
     canonical: siteUrl,
@@ -22,7 +22,7 @@ const jsonLd = {
   url: siteUrl,
   applicationCategory: "DesignApplication",
   description:
-    "Scale-aware measurement engine: real-world length to model size using a fixed scale ratio. Results rounded to three decimal places across millimeters, centimeters, meters, inches, and decimal feet.",
+    "Interactive scale calculator for models and architecture: full-size length in, scaled model dimensions out — millimetres, centimetres, metres, inches, and decimal feet from one fixed ratio per run.",
   operatingSystem: "Any",
   browserRequirements: "Requires JavaScript",
   potentialAction: {

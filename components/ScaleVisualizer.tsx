@@ -5,6 +5,7 @@ import {
   DEFAULT_REFERENCE_ID,
   getReferenceById,
   type ReferenceId,
+  type ReferenceObject,
   REFERENCE_OBJECTS,
 } from "@/lib/reference-data";
 
@@ -21,7 +22,14 @@ interface ScaleVisualizerProps {
   resultLabel?: string | null;
 }
 
-function ReferenceSvgShape({ refObj }: { refObj: ReturnType<typeof getReferenceById> }) {
+/** Files in /public; layout still uses widthMm / heightMm from reference-data (unchanged). */
+const REFERENCE_ARTWORK_SRC: Partial<Record<ReferenceId, string>> = {
+  "us-quarter": "/quarter.svg",
+  "credit-card": "/creditcard.svg",
+  "aa-battery": "/battery.svg",
+};
+
+function ReferenceVectorFallback({ refObj }: { refObj: ReferenceObject }) {
   if (refObj.shape === "circle") {
     const r = refObj.widthMm / 2;
     return (
@@ -45,6 +53,39 @@ function ReferenceSvgShape({ refObj }: { refObj: ReturnType<typeof getReferenceB
       strokeWidth={0.35}
     />
   );
+}
+
+function ReferenceShape({ refObj }: { refObj: ReferenceObject }) {
+  const src = REFERENCE_ARTWORK_SRC[refObj.id];
+  const w = refObj.widthMm;
+  const h = refObj.heightMm;
+  if (src) {
+    if (refObj.shape === "circle") {
+      return (
+        <image
+          href={src}
+          width={w}
+          height={h}
+          x={-w / 2}
+          y={-h / 2}
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden
+        />
+      );
+    }
+    return (
+      <image
+        href={src}
+        width={w}
+        height={h}
+        x={0}
+        y={0}
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden
+      />
+    );
+  }
+  return <ReferenceVectorFallback refObj={refObj} />;
 }
 
 export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisualizerProps) {
@@ -226,11 +267,11 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
               <>
                 {refObj.shape === "circle" ? (
                   <g transform={`translate(0, ${scene.refCenterY})`}>
-                    <ReferenceSvgShape refObj={refObj} />
+                    <ReferenceShape refObj={refObj} />
                   </g>
                 ) : (
                   <g transform={`translate(${-refObj.widthMm / 2}, ${scene.refCenterY - refObj.heightMm / 2})`}>
-                    <ReferenceSvgShape refObj={refObj} />
+                    <ReferenceShape refObj={refObj} />
                   </g>
                 )}
                 <rect

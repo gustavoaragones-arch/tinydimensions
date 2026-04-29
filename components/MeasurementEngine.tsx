@@ -118,7 +118,8 @@ export function MeasurementEngine({
           Instant Scale Measurement Calculator for Models &amp; Architecture
         </h1>
         <p className="mt-1 max-w-prose text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
-          Real-world length. Your scale. The exact model size — to three decimal places.
+          Enter a full-size span, choose HO, architectural, or diecast ratios, then copy scaled millimetres and
+          companion units for elevations, track plans, and model components.
         </p>
       </header>
 

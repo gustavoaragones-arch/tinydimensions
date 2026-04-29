@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const MISSION =
-  "Measurement engine: Real-world length to model size using a fixed scale. Results rounded to three decimal places.";
+  "Scale conversion for drawings, maquettes, and layout design: pick a standard ratio, enter metric or imperial source lengths, and rely on the same arithmetic rule every time.";
 
 const navLinkClass =
   "rounded-md px-2 py-1.5 text-sm font-medium tracking-tight text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900 dark:hover:text-white";
