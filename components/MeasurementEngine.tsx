@@ -4,17 +4,20 @@ import { useCallback, useId, useMemo, useRef, useState } from "react";
 import type { LengthUnit, ScalePreset } from "@/lib/math-engine";
 import { ScaleVisualizer } from "@/components/ScaleVisualizer";
 import {
+  formatFixed3,
   mmToAllUnits,
-  normalizeToMm,
+  prefersMmPrimaryReadout,
   realMmToScaledMm,
   roundAllUnits3,
   SCALE_PRESETS,
 } from "@/lib/math-engine";
+import { resolveRealWorldLengthMm } from "@/lib/real-world-input";
 
 const LENGTH_UNITS: LengthUnit[] = ["mm", "cm", "m", "in", "ft"];
 
-function formatUnitLine(units: ReturnType<typeof roundAllUnits3>): string {
-  return `${units.mm}mm / ${units.cm}cm / ${units.m}m / ${units.in}in / ${units.ft}ft`;
+// Purpose: One-line readout for architectural scales where Yuki expects every unit in the studio packet.
+function formatArchitecturalReadout(units: ReturnType<typeof roundAllUnits3>): string {
+  return `${formatFixed3(units.mm)} mm / ${formatFixed3(units.cm)} cm / ${formatFixed3(units.m)} m / ${formatFixed3(units.in)} in / ${formatFixed3(units.ft)} ft`;
 }
 
 function ClipboardIcon() {
@@ -64,20 +67,36 @@ export function MeasurementEngine({
   const [copied, setCopied] = useState(false);
   const copyResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { resultLine, scaledMm, copyText } = useMemo(() => {
-    const parsed = Number.parseFloat(rawValue.replace(",", "."));
-    if (!Number.isFinite(parsed)) {
+  const { resultLine, scaledMm, copyText, hobbySecondaryLine } = useMemo(() => {
+    const mmPrimaryReadout = prefersMmPrimaryReadout(scale.category);
+    const realMm = resolveRealWorldLengthMm(rawValue, unit);
+    if (realMm === null) {
       return {
         resultLine: null as string | null,
         scaledMm: null as number | null,
         copyText: null as string | null,
+        hobbySecondaryLine: null as string | null,
       };
     }
-    const realMm = normalizeToMm(parsed, unit);
     const scaledMm = realMmToScaledMm(realMm, scale.denominator);
     const rounded = roundAllUnits3(mmToAllUnits(scaledMm));
-    const copyText = `${rounded.mm} mm (${scale.label} scale)`;
-    return { resultLine: formatUnitLine(rounded), scaledMm, copyText };
+    const copyText = `${formatFixed3(rounded.mm)} mm (${scale.label} scale)`;
+    if (mmPrimaryReadout) {
+      const primary = `${formatFixed3(rounded.mm)} mm`;
+      const secondary = `${formatFixed3(rounded.cm)} cm · ${formatFixed3(rounded.m)} m · ${formatFixed3(rounded.in)} in · ${formatFixed3(rounded.ft)} ft`;
+      return {
+        resultLine: primary,
+        scaledMm,
+        copyText,
+        hobbySecondaryLine: secondary,
+      };
+    }
+    return {
+      resultLine: formatArchitecturalReadout(rounded),
+      scaledMm,
+      copyText,
+      hobbySecondaryLine: null,
+    };
   }, [rawValue, unit, scale]);
 
   const handleCopy = useCallback(async () => {
@@ -93,13 +112,13 @@ export function MeasurementEngine({
   }, [copyText]);
 
   return (
-    <main className="mx-auto w-full max-w-none text-neutral-900 dark:text-neutral-100">
+    <article className="mx-auto w-full max-w-none text-neutral-900 dark:text-neutral-100">
       <header className="mb-6">
-        <h1 className="font-sans text-lg font-semibold tracking-tight text-neutral-950 dark:text-neutral-50">
-          Convert &amp; compare
+        <h1 className="text-balance font-sans text-lg font-semibold tracking-tight text-neutral-950 dark:text-neutral-50">
+          Instant Scale Measurement Calculator for Models &amp; Architecture
         </h1>
-        <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">
-          Set real length, unit, and drawing scale — then read the scaled strip and workbench.
+        <p className="mt-1 max-w-prose text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
+          Real-world length. Your scale. The exact model size — to three decimal places.
         </p>
       </header>
 
@@ -111,7 +130,7 @@ export function MeasurementEngine({
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-2">
               <label htmlFor={valueId} className="td-label">
-                Real-world value
+                Insert a real-world value
               </label>
               <input
                 id={valueId}
@@ -143,14 +162,15 @@ export function MeasurementEngine({
               </select>
             </div>
           </div>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            Feet are decimal feet (e.g. 5′11″ ≈ 5.917 ft).
+          <p className="text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
+            Decimal in the unit you selected, or feet and inches (for example 6&apos;2&quot; or 6 ft 2
+            in). When you use feet and inches, that value is used even if another unit is selected.
           </p>
         </section>
 
         <section className="space-y-3 border-t border-neutral-200 pt-4 dark:border-neutral-800">
           <label htmlFor={scaleId} className="td-label">
-            Scale
+            Select your scale
           </label>
           <select
             id={scaleId}
@@ -169,7 +189,21 @@ export function MeasurementEngine({
                 </option>
               ))}
             </optgroup>
-            <optgroup label="Hobbyist">
+            <optgroup label="Diecast">
+              {SCALE_PRESETS.filter((p) => p.category === "diecast").map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Modeling">
+              {SCALE_PRESETS.filter((p) => p.category === "modeling").map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.label}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Model railroad &amp; dollhouse">
               {SCALE_PRESETS.filter((p) => p.category === "hobbyist").map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.label}
@@ -203,17 +237,30 @@ export function MeasurementEngine({
               aria-live="polite"
               className="td-readout"
             >
-              {resultLine ?? "—"}
+              {resultLine === null ? (
+                "—"
+              ) : hobbySecondaryLine ? (
+                <span className="block space-y-1">
+                  <span className="block font-medium">{resultLine}</span>
+                  <span className="block text-xs font-normal text-neutral-800 dark:text-neutral-200">
+                    {hobbySecondaryLine}
+                  </span>
+                </span>
+              ) : (
+                resultLine
+              )}
             </output>
           </div>
           <div className="mt-10">
             <ScaleVisualizer scaledValueMm={scaledMm} resultLabel={activeCatalogLabel} />
           </div>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            Same model length expressed in mm, cm, m, in, and ft at {scale.label}.
+          <p className="text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
+            {prefersMmPrimaryReadout(scale.category)
+              ? `Scaled length at ${scale.label}; millimetres listed first for kit and bench work.`
+              : `Scaled length at ${scale.label} in millimetres, centimetres, metres, inches, and decimal feet.`}
           </p>
         </section>
       </div>
-    </main>
+    </article>
   );
 }

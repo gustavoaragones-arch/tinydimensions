@@ -5,7 +5,7 @@ const MISSION =
   "Measurement engine: Real-world length to model size using a fixed scale. Results rounded to three decimal places.";
 
 const navLinkClass =
-  "rounded-md px-2 py-1.5 text-sm font-medium tracking-tight text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-neutral-950 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:hover:text-white";
+  "rounded-md px-2 py-1.5 text-sm font-medium tracking-tight text-neutral-800 transition-colors hover:bg-neutral-100 hover:text-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900 dark:hover:text-white";
 
 export function SiteHeader() {
   return (
@@ -30,7 +30,7 @@ export function SiteHeader() {
               </span>
             </Link>
           </div>
-          <p className="max-w-prose text-sm font-normal leading-relaxed text-neutral-600 md:max-w-md md:text-right dark:text-neutral-500">
+          <p className="max-w-prose text-sm font-normal leading-relaxed text-neutral-700 md:max-w-md md:text-right dark:text-neutral-300">
             {MISSION}
           </p>
         </div>

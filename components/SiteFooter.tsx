@@ -7,8 +7,8 @@ export function SiteFooter() {
         <p className="text-sm font-medium tracking-tight text-neutral-900 lowercase dark:text-neutral-100">
           tinydimensions <span className="text-neutral-400">/</span> albor digital
         </p>
-        <p className="mt-2 max-w-2xl text-xs text-neutral-500 dark:text-neutral-400">
-          Results are for educational and hobbyist use only. Verify dimensions for professional
+        <p className="mt-2 max-w-2xl text-xs text-neutral-700 dark:text-neutral-300">
+          Results are for hobbyist and educational use. Verify dimensions before professional
           construction.
         </p>
         <nav

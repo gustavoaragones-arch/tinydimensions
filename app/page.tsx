@@ -6,9 +6,9 @@ import { getSiteUrl } from "@/lib/site-url";
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "TinyDimensions — Scale-aware measurements",
+  title: "Instant Scale Measurement Calculator for Models & Architecture",
   description:
-    "Convert real-world lengths to scaled model dimensions with architectural and hobbyist presets. Logic-first, millimeter-accurate engine.",
+    "Convert real-world lengths to scaled model dimensions with architectural, diecast, and kit presets. Millimeter-accurate engine; three-decimal readouts.",
   keywords: buildSiteKeywords(),
   alternates: {
     canonical: siteUrl,
@@ -17,13 +17,28 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "WebApplication",
   name: "TinyDimensions",
   url: siteUrl,
-  applicationCategory: "EducationalApplication",
+  applicationCategory: "DesignApplication",
   description:
-    "Scale-aware measurement engine for architects and hobbyists: real-world to model conversions with preset scales.",
+    "Scale-aware measurement engine: real-world length to model size using a fixed scale ratio. Results rounded to three decimal places across millimeters, centimeters, meters, inches, and decimal feet.",
   operatingSystem: "Any",
+  browserRequirements: "Requires JavaScript",
+  potentialAction: {
+    "@type": "CalculateAction",
+    name: "Convert real-world length to scaled model length",
+    description:
+      "Computes scaled model dimensions from a real-world measurement and a numeric scale ratio (for example 1:87 HO, 1:18 diecast, or 1:100 architecture).",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: siteUrl,
+      actionPlatform: [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform",
+      ],
+    },
+  },
 };
 
 export default function Home() {
@@ -33,9 +48,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="flex flex-1 flex-col bg-neutral-50 dark:bg-neutral-950">
-        <MeasurementWorkspace />
-      </div>
+      <MeasurementWorkspace />
     </>
   );
 }

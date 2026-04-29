@@ -44,7 +44,7 @@ body {
  */
 @layer components {
   .td-label {
-    @apply m-0 text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400;
+    @apply m-0 text-xs font-medium uppercase tracking-wide text-neutral-700 dark:text-neutral-300;
   }
 
   .td-field {
@@ -65,7 +65,7 @@ body {
   }
 
   .td-field::placeholder {
-    color: rgb(163 163 163);
+    color: rgb(115 115 115);
   }
 
   .td-field:hover:not(:disabled):not(:focus-visible) {
