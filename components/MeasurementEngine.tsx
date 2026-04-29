@@ -257,8 +257,8 @@ export function MeasurementEngine({
           </div>
           <p className="text-xs leading-relaxed text-neutral-700 dark:text-neutral-300">
             {prefersMmPrimaryReadout(scale.category)
-              ? `Scaled length at ${scale.label}; millimetres listed first for kit and bench work.`
-              : `Scaled length at ${scale.label} in millimetres, centimetres, metres, inches, and decimal feet.`}
+              ? `Scaled length at ${scale.label}; millimetres listed first for kit and bench work. In the workbench below, the high-contrast bar is your scaled length; lighter shapes are reference-only silhouettes.`
+              : `Scaled length at ${scale.label} in millimetres, centimetres, metres, inches, and decimal feet. In the workbench below, the high-contrast bar is your scaled length; lighter shapes are reference-only silhouettes.`}
           </p>
         </section>
       </div>

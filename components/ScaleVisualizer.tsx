@@ -189,9 +189,9 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
       aria-label="Spatial comparison"
     >
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-2">
+        <div className="flex flex-col gap-3">
           <label htmlFor={referenceSelectId} className="td-label">
-            Reference object
+            Reference object comparison
           </label>
           <select
             id={referenceSelectId}
