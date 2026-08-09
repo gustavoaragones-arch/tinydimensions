@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const shellClass =
   "mx-auto max-w-2xl flex-1 px-6 py-12 text-neutral-900 dark:text-neutral-100";
@@ -12,20 +13,26 @@ const h1Class =
 const h2Class =
   "scroll-mt-8 font-sans text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400";
 
+const h3Class =
+  "font-sans text-sm font-semibold tracking-tight text-neutral-900 dark:text-neutral-100";
+
 const monoNoteClass = "font-mono text-xs text-neutral-600 dark:text-neutral-400";
 
 export function LongFormShell({
   title,
   eyebrow,
+  breadcrumbs,
   children,
 }: {
   title: string;
   eyebrow?: string;
+  breadcrumbs?: { label: string; href?: string }[];
   children: React.ReactNode;
 }) {
   return (
     <div className={shellClass}>
       <article>
+        {breadcrumbs ? <Breadcrumbs crumbs={breadcrumbs} /> : null}
         {eyebrow ? <p className={`mb-2 ${monoNoteClass}`}>{eyebrow}</p> : null}
         <h1 className={h1Class}>{title}</h1>
         <div className={bodyClass}>{children}</div>
@@ -42,4 +49,4 @@ export function LongFormShell({
   );
 }
 
-export { h2Class, monoNoteClass };
+export { h2Class, h3Class, monoNoteClass };

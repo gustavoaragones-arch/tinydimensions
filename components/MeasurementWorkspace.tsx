@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { MeasurementEngine } from "@/components/MeasurementEngine";
 import { ObjectCatalog } from "@/components/ObjectCatalog";
 import { useMinLg } from "@/hooks/useMinLg";
@@ -8,7 +9,11 @@ import type { LengthUnit } from "@/lib/math-engine";
 import { getDefaultScalePreset, type ScalePreset } from "@/lib/math-engine";
 import type { CatalogObject } from "@/lib/object-catalog";
 
-export function MeasurementWorkspace() {
+interface MeasurementWorkspaceProps {
+  breadcrumbs?: { label: string; href?: string }[];
+}
+
+export function MeasurementWorkspace({ breadcrumbs }: MeasurementWorkspaceProps = {}) {
   const isLg = useMinLg();
 
   const [rawValue, setRawValue] = useState<string>("1");
@@ -37,6 +42,7 @@ export function MeasurementWorkspace() {
   return (
     <main className="flex flex-1 flex-col bg-neutral-50 dark:bg-neutral-950">
       <div className="mx-auto w-full max-w-5xl px-4 py-6">
+        {breadcrumbs ? <Breadcrumbs crumbs={breadcrumbs} /> : null}
         <div className="grid gap-6 lg:mx-auto lg:w-max lg:max-w-full lg:grid-cols-[minmax(0,40rem)_17.5rem] lg:items-start lg:gap-x-8">
           <MeasurementEngine
             rawValue={rawValue}

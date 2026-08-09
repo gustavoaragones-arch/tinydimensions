@@ -17,13 +17,13 @@ export default function CatalogPage() {
   return (
     <LongFormShell title="Standard object catalog">
       <p>
-        Reference lengths used by the quick-load catalog on the home page. To apply a value in the
+        Reference lengths used by the quick-load catalog in the calculator. To apply a value in the
         engine, open{" "}
         <Link
-          href="/#catalog"
+          href="/scale-calculator#catalog"
           className="font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
         >
-          Home → catalog
+          Scale Calculator → catalog
         </Link>
         .
       </p>

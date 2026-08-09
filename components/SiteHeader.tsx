@@ -41,8 +41,14 @@ export function SiteHeader() {
           <Link href="/" className={navLinkClass}>
             Home
           </Link>
+          <Link href="/scale-calculator" className={navLinkClass}>
+            Calculator
+          </Link>
           <Link href="/catalog" className={navLinkClass}>
             Catalog
+          </Link>
+          <Link href="/guides" className={navLinkClass}>
+            Guides
           </Link>
           <Link href="/about" className={navLinkClass}>
             About

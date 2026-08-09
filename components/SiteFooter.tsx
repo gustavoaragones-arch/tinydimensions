@@ -18,8 +18,14 @@ export function SiteFooter() {
           <Link className="hover:underline" href="/">
             Home
           </Link>
+          <Link className="hover:underline" href="/scale-calculator">
+            Calculator
+          </Link>
           <Link className="hover:underline" href="/catalog">
             Catalog
+          </Link>
+          <Link className="hover:underline" href="/guides">
+            Guides
           </Link>
           <Link className="hover:underline" href="/about">
             About
@@ -30,7 +36,7 @@ export function SiteFooter() {
           <Link className="hover:underline" href="/privacy">
             Privacy
           </Link>
-          <Link className="hover:underline" href="/disclaimer">
+          <Link className="hover:underline" href="/terms#disclaimer-heading">
             Disclaimer
           </Link>
         </nav>

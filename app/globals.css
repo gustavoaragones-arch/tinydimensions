@@ -357,6 +357,42 @@ body {
     }
   }
 
+  .td-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  .td-table th,
+  .td-table td {
+    border-bottom: 1px solid var(--td-border);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .td-table thead th {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: rgb(115 115 115);
+  }
+
+  .td-table tbody td {
+    color: rgb(38 38 38);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .td-table thead th {
+      color: rgb(163 163 163);
+    }
+    .td-table tbody td {
+      color: rgb(229 229 229);
+    }
+  }
+
   .td-checkbox {
     height: 1.25rem;
     width: 1.25rem;
