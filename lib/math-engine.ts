@@ -1,19 +1,32 @@
 /**
  * Scale-aware length conversions. All internal math uses millimeters.
- * To scale (model): realMm / scaleDenominator
- * To real: scaledMm * scaleDenominator
+ * To scale (model): realMm / scaleRatio
+ * To real: scaledMm * scaleRatio
  */
 
 export type LengthUnit = "mm" | "cm" | "m" | "in" | "ft";
 
-export type ScaleCategory = "architectural" | "diecast" | "hobbyist" | "modeling";
+export type ScaleCategory =
+  | "architecture"
+  | "automotive"
+  | "aircraft"
+  | "military"
+  | "naval"
+  | "railway"
+  | "figures"
+  | "dollhouse";
 
 export interface ScalePreset {
-  id: string;
+  /** Exact divisor. 87.1, not 87. Used for all arithmetic. */
+  ratio: number;
+  /** Display string, e.g. "1:87.1". Derived, but stored for exactness. */
   label: string;
-  category: ScaleCategory;
-  /** e.g. 50 for a 1:50 drawing */
-  denominator: number;
+  /** Short common name where one exists: "HO", "OO", "N". Omitted where none. */
+  name?: string;
+  /** Every category this ratio is genuinely used in. Order is not significant. */
+  categories: ScaleCategory[];
+  /** Hidden search terms. Never rendered. Lowercased matching. */
+  aliases: string[];
 }
 
 export interface AllUnitsMm {
@@ -80,35 +93,127 @@ export function formatFixed3(value: number): string {
   return roundToDecimals(value, 3).toFixed(3);
 }
 
-// Purpose: Prefer millimeters as the headline readout for hobby, diecast, and kit scales where builders spec parts in mm (Arthur HO, Lachlan diecast).
-export function prefersMmPrimaryReadout(category: ScaleCategory): boolean {
-  return category !== "architectural";
-}
-
 // Purpose: Real-world length → model length at scale (both in mm) for maquette and layout math (Yuki studio submissions).
-export function realMmToScaledMm(realMm: number, scaleDenominator: number): number {
-  return realMm / scaleDenominator;
+export function realMmToScaledMm(realMm: number, ratio: number): number {
+  return realMm / ratio;
 }
 
 // Purpose: Model length → real-world length (both in mm) for reverse checks when a physical part is measured on the bench.
-export function scaledMmToRealMm(scaledMm: number, scaleDenominator: number): number {
-  return scaledMm * scaleDenominator;
+export function scaledMmToRealMm(scaledMm: number, ratio: number): number {
+  return scaledMm * ratio;
 }
 
+function preset(
+  ratio: number,
+  categories: ScaleCategory[],
+  aliases: string[],
+  name?: string,
+): ScalePreset {
+  return { ratio, label: `1:${ratio}`, name, categories, aliases };
+}
+
+/**
+ * 36 fixed ratios across model railway, automotive, aircraft, military, naval,
+ * architecture, figures, and dollhouse work. Ordered smallest ratio to largest.
+ * Exact ratios only (HO is 87.1, not 87; British O is 43.5, not 43) — the rounded
+ * forms live in `aliases` so search still finds them, but arithmetic always uses
+ * `ratio`. No brand or product-line names appear in `label`, `name`, or `aliases`.
+ */
 export const SCALE_PRESETS: readonly ScalePreset[] = [
-  { id: "1-50", label: "1:50", category: "architectural", denominator: 50 },
-  { id: "1-100", label: "1:100", category: "architectural", denominator: 100 },
-  { id: "1-200", label: "1:200", category: "architectural", denominator: 200 },
-  { id: "1-18", label: "1:18 (Diecast)", category: "diecast", denominator: 18 },
-  { id: "1-43", label: "1:43 (Diecast)", category: "diecast", denominator: 43 },
-  { id: "1-64", label: "1:64 (Diecast)", category: "diecast", denominator: 64 },
-  { id: "1-35", label: "1:35 (Military)", category: "modeling", denominator: 35 },
-  { id: "1-72", label: "1:72 (Aircraft)", category: "modeling", denominator: 72 },
-  { id: "1-12", label: "1:12 (Dollhouse)", category: "hobbyist", denominator: 12 },
-  { id: "1-48", label: "1:48 (O scale)", category: "hobbyist", denominator: 48 },
-  { id: "1-87", label: "1:87 (HO scale)", category: "hobbyist", denominator: 87 },
+  preset(6, ["automotive", "figures", "dollhouse"], ["1/6", "playscale"]),
+  preset(9, ["automotive"], ["1/9"]),
+  preset(12, ["automotive", "dollhouse", "figures"], ["1/12", "one inch scale", "dollhouse"]),
+  preset(16, ["military", "automotive"], ["1/16"]),
+  preset(18, ["automotive"], ["1/18"]),
+  preset(20, ["architecture", "automotive"], ["1/20"]),
+  preset(22.5, ["railway"], ["1/22.5", "g scale", "g gauge"], "G"),
+  preset(24, ["automotive", "dollhouse"], ["1/24", "half inch scale"]),
+  preset(25, ["automotive"], ["1/25"]),
+  preset(29, ["railway"], ["1/29", "g scale"], "G"),
+  preset(
+    32,
+    ["aircraft", "military", "automotive", "railway"],
+    ["1/32", "gauge one", "three eighths scale", "slot car"],
+    "Gauge 1",
+  ),
+  preset(35, ["military"], ["1/35"]),
+  preset(43, ["automotive"], ["1/43"]),
+  preset(43.5, ["railway"], ["1/43.5", "7mm scale", "o gauge"], "British O"),
+  preset(45, ["railway"], ["1/45", "o gauge"], "European O"),
+  preset(
+    48,
+    ["railway", "aircraft", "military", "architecture", "dollhouse"],
+    ["1/48", "quarter inch scale", "quarter scale", "o gauge"],
+    "O",
+  ),
+  preset(50, ["architecture"], ["1/50"]),
+  preset(60, ["figures"], ["1/60"]),
+  preset(
+    64,
+    ["railway", "automotive"],
+    ["1/64", "s scale", "s gauge", "three sixteenths scale"],
+    "S",
+  ),
+  preset(72, ["aircraft", "military"], ["1/72"]),
+  preset(
+    76.2,
+    ["railway", "military"],
+    ["1/76", "1/76.2", "oo gauge", "4mm scale", "double o"],
+    "OO",
+  ),
+  preset(87.1, ["railway"], ["1/87", "1/87.1", "ho scale", "h0"], "HO"),
+  preset(96, ["architecture", "naval"], ["1/96", "eighth inch scale"]),
+  preset(100, ["architecture", "figures", "aircraft"], ["1/100"]),
+  preset(120, ["railway"], ["1/120", "tt scale", "tt gauge"], "TT"),
+  preset(144, ["aircraft", "figures"], ["1/144"]),
+  preset(148, ["railway"], ["1/148", "n gauge"], "British N"),
+  preset(150, ["railway"], ["1/150", "n gauge"], "Japanese N"),
+  preset(160, ["railway"], ["1/160", "n scale", "n gauge"], "N"),
+  preset(200, ["architecture", "aircraft", "naval"], ["1/200"]),
+  preset(220, ["railway"], ["1/220", "z scale", "z gauge"], "Z"),
+  preset(350, ["naval"], ["1/350"]),
+  preset(400, ["naval", "aircraft"], ["1/400"]),
+  preset(500, ["architecture"], ["1/500"]),
+  preset(700, ["naval"], ["1/700"]),
+  preset(1200, ["naval"], ["1/1200"]),
 ] as const;
 
+/** Display order for grouping presets by category in the picker and the reference table. */
+export const SCALE_CATEGORY_ORDER: readonly ScaleCategory[] = [
+  "railway",
+  "automotive",
+  "aircraft",
+  "military",
+  "naval",
+  "architecture",
+  "figures",
+  "dollhouse",
+] as const;
+
+export const SCALE_CATEGORY_LABELS: Record<ScaleCategory, string> = {
+  railway: "Model railway",
+  automotive: "Automotive",
+  aircraft: "Aircraft",
+  military: "Military",
+  naval: "Naval",
+  architecture: "Architecture",
+  figures: "Figures",
+  dollhouse: "Dollhouse",
+};
+
+// Purpose: Let the picker search box find a ratio by its notation, common name, or a hidden alias (e.g. "HO", "1:87", "quarter inch") without showing the alias anywhere.
+export function filterScalePresets(
+  presets: readonly ScalePreset[],
+  query: string,
+): ScalePreset[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [...presets];
+  return presets.filter((p) => {
+    const haystack = [p.label, p.name ?? "", ...p.aliases].join(" ").toLowerCase();
+    return haystack.includes(q);
+  });
+}
+
 export function getDefaultScalePreset(): ScalePreset {
-  return SCALE_PRESETS[0];
+  return SCALE_PRESETS.find((p) => p.ratio === 87.1) ?? SCALE_PRESETS[0];
 }

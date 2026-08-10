@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { MeasurementEngine } from "@/components/MeasurementEngine";
 import { ObjectCatalog } from "@/components/ObjectCatalog";
@@ -11,9 +11,14 @@ import type { CatalogObject } from "@/lib/object-catalog";
 
 interface MeasurementWorkspaceProps {
   breadcrumbs?: { label: string; href?: string }[];
+  /** Optional content below the calculator (e.g. scale preset index). */
+  after?: ReactNode;
 }
 
-export function MeasurementWorkspace({ breadcrumbs }: MeasurementWorkspaceProps = {}) {
+export function MeasurementWorkspace({
+  breadcrumbs,
+  after,
+}: MeasurementWorkspaceProps = {}) {
   const isLg = useMinLg();
 
   const [rawValue, setRawValue] = useState<string>("1");
@@ -70,6 +75,8 @@ export function MeasurementWorkspace({ breadcrumbs }: MeasurementWorkspaceProps 
             <div className="border-t border-neutral-200 p-3 dark:border-neutral-800">{catalogInner}</div>
           </details>
         ) : null}
+
+        {after}
       </div>
     </main>
   );

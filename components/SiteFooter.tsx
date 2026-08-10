@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-neutral-200 bg-white text-neutral-800 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200">
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-6">
         <p className="text-sm font-medium tracking-tight text-neutral-900 lowercase dark:text-neutral-100">
-          tinydimensions <span className="text-neutral-400">/</span> albor digital
+          tinydimensions
         </p>
         <p className="mt-2 max-w-2xl text-xs text-neutral-700 dark:text-neutral-300">
           Results are for hobbyist and educational use. Verify dimensions before professional

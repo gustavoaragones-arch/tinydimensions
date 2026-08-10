@@ -327,7 +327,7 @@ export default function ReadingScaleRatiosPage() {
                 <tr><td>1:25</td><td>—</td><td>Car models</td></tr>
                 <tr><td>1:32</td><td>3/8 in to the foot</td><td>Aircraft, farm models, some figures</td></tr>
                 <tr><td>1:35</td><td>—</td><td>Military vehicles and figures</td></tr>
-                <tr><td>1:43.5</td><td>7 mm to the foot</td><td>British O gauge, diecast</td></tr>
+                <tr><td>1:43.5</td><td>7 mm to the foot</td><td>British O gauge</td></tr>
                 <tr><td>1:48</td><td>1/4 in to the foot</td><td>US O gauge, aircraft, architectural presentation</td></tr>
                 <tr><td>1:64</td><td>3/16 in to the foot</td><td>S gauge, mass-market diecast</td></tr>
                 <tr><td>1:72</td><td>1/6 in to the foot</td><td>Aircraft, military, wargaming</td></tr>
