@@ -81,20 +81,18 @@ export default function Home() {
                 </span>
               </Link>
 
-              <div className="td-panel p-5 opacity-70 dark:bg-neutral-900/50">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className={h3Class}>Stage</h3>
-                  <span className="td-label rounded-full border border-neutral-300 px-2 py-0.5 dark:border-neutral-700">
-                    In development
-                  </span>
-                </div>
+              <Link
+                href="/stage"
+                className="td-panel block p-5 transition-shadow hover:shadow-md dark:bg-neutral-900/50"
+              >
+                <h3 className={h3Class}>Stage</h3>
                 <p className="mt-2 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
                   Block out a diorama with proxy volumes, set the dimensions, then look at it from
                   where it will actually be viewed: a shelf above eye level, a competition table you
                   stand over, a display case. Composition overlays are available as optional
                   reference aids.
                 </p>
-              </div>
+              </Link>
             </div>
           </section>
 

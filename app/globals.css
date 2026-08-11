@@ -409,3 +409,28 @@ body {
     }
   }
 }
+
+/**
+ * Stage bench-sheet print route (lib/stage/export.ts / ExportPanel): renders a hidden
+ * sheet and calls window.print(). Standard "print just this element" technique -
+ * visibility (not display) keeps layout stable, then the sheet is pulled to the origin.
+ */
+#stage-print-sheet {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #stage-print-sheet,
+  #stage-print-sheet * {
+    visibility: visible;
+  }
+  #stage-print-sheet {
+    display: block;
+    position: absolute;
+    inset: 0;
+    padding: 1rem;
+  }
+}

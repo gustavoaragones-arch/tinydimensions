@@ -21,6 +21,9 @@ export function SiteFooter() {
           <Link className="hover:underline" href="/scale-calculator">
             Calculator
           </Link>
+          <Link className="hover:underline" href="/stage">
+            Stage
+          </Link>
           <Link className="hover:underline" href="/catalog">
             Catalog
           </Link>
