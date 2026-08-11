@@ -11,6 +11,13 @@
   --td-surface-muted: rgb(250 250 250);
   --td-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
   --td-shadow-focus: 0 1px 3px rgb(0 0 0 / 0.08);
+  /* v2 direction tokens (inert until .td-v2 applies them) */
+  --font-body: var(--font-display);
+  --td-paper: #f3f5f6;
+  --td-ink: #12171a;
+  --td-graphite: #5c666d;
+  --td-rule: #c6cdd2;
+  --td-signal: #1d5f8a;
 }
 
 @theme inline {
@@ -30,6 +37,11 @@
     --td-surface-muted: rgb(23 23 23);
     --td-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
     --td-shadow-focus: 0 1px 4px rgb(0 0 0 / 0.45);
+    --td-paper: #12171a;
+    --td-ink: #f3f5f6;
+    --td-graphite: #9aa4ab;
+    --td-rule: #3a4348;
+    --td-signal: #5fa8d8;
   }
 }
 
@@ -433,4 +445,312 @@ body {
     inset: 0;
     padding: 1rem;
   }
+}
+
+/**
+ * Visual direction v2 — scoped to /scale-calculator via .td-v2 wrapper only.
+ */
+.td-v2 {
+  --font-mono: var(--font-td-mono);
+  background-color: var(--td-paper);
+  color: var(--td-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+.td-v2 main {
+  background-color: var(--td-paper) !important;
+  color: var(--td-ink);
+}
+
+.td-v2 a:not([class*="td-btn"]) {
+  color: var(--td-signal);
+}
+
+.td-v2 .td-measure {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.td-v2 h1 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  font-variation-settings: "wdth" 112;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--td-ink) !important;
+}
+
+@media (max-width: 639px) {
+  .td-v2 h1 {
+    font-size: 28px;
+  }
+}
+
+.td-v2 h2 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-variation-settings: "wdth" 112;
+  line-height: 1.25;
+  color: var(--td-ink) !important;
+}
+
+.td-v2 article > header > p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--td-ink) !important;
+}
+
+.td-v2 section > p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--td-graphite);
+}
+
+.td-v2 .td-label {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--td-graphite) !important;
+}
+
+.td-v2 .text-xs.leading-relaxed,
+.td-v2 p.text-xs,
+.td-v2 .text-xs.text-neutral-600,
+.td-v2 .text-xs.text-neutral-700,
+.td-v2 .text-xs.text-neutral-500,
+.td-v2 .text-sm.text-neutral-700 {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--td-graphite) !important;
+}
+
+.td-v2 .border-neutral-200,
+.td-v2 .border-neutral-200\/90,
+.td-v2 .dark\:border-neutral-800,
+.td-v2 .dark\:border-neutral-700,
+.td-v2 .dark\:border-neutral-800\/80 {
+  border-color: var(--td-rule) !important;
+}
+
+.td-v2 .td-panel {
+  border-color: var(--td-rule);
+  background-color: var(--td-paper);
+  box-shadow: none;
+}
+
+.td-v2 .dark\:bg-neutral-900\/50 {
+  background-color: var(--td-paper) !important;
+}
+
+.td-v2 .td-field {
+  border-color: var(--td-rule);
+  background-color: var(--td-paper);
+  color: var(--td-ink);
+  box-shadow: none;
+}
+
+.td-v2 .td-field--mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.td-v2 .td-field:focus-visible,
+.td-v2 .td-btn-icon:focus-visible,
+.td-v2 .td-chip:focus-visible,
+.td-v2 .td-catalog-item:focus-visible,
+.td-v2 .td-summary:focus-visible,
+.td-v2 .td-checkbox:focus-visible {
+  outline: none;
+  border-color: var(--td-signal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--td-signal) 35%, transparent);
+}
+
+.td-v2 .td-readout {
+  min-height: auto;
+  border: none;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  font-family: inherit;
+  color: var(--td-ink);
+}
+
+.td-v2 {
+  /* Effective weight for the dimension annotation (Task 3a). Started at --td-ink / 1px;
+     that is the value that actually resolves at 40px mono, so it stays here rather than
+     dropping to --td-graphite. Change this one variable, not the individual rules below. */
+  --td-dim-color: var(--td-ink);
+  --td-dim-weight: 1px;
+  --td-dim-tick-height: 18px;
+}
+
+.td-v2 .td-dimension-readout__annotation {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.td-v2 .td-dimension-tick {
+  flex: 0 0 auto;
+  width: var(--td-dim-weight);
+  height: var(--td-dim-tick-height);
+  background-color: var(--td-dim-color);
+}
+
+.td-v2 .td-dimension-leader {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 1rem;
+  align-items: center;
+}
+
+.td-v2 .td-dimension-line {
+  flex: 1 1 auto;
+  height: 0;
+  border-top: var(--td-dim-weight) solid var(--td-dim-color);
+}
+
+.td-v2 .td-dimension-arrow {
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.td-v2 .td-dimension-arrow--left {
+  border-right: 6px solid var(--td-dim-color);
+}
+
+.td-v2 .td-dimension-arrow--right {
+  border-left: 6px solid var(--td-dim-color);
+}
+
+.td-v2 .td-dimension-readout__value {
+  flex: 0 0 auto;
+  padding: 0 0.75rem;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--td-ink);
+  white-space: nowrap;
+}
+
+.td-v2 .td-dimension-readout__secondary {
+  margin: 0.5rem 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--td-ink);
+}
+
+.td-v2 .td-btn-icon {
+  border-color: var(--td-rule);
+  background-color: var(--td-paper);
+  color: var(--td-ink);
+  box-shadow: none;
+}
+
+.td-v2 .td-btn-icon:hover:not(:disabled) {
+  border-color: var(--td-signal);
+  background-color: color-mix(in srgb, var(--td-signal) 8%, var(--td-paper));
+}
+
+.td-v2 .td-chip {
+  border-color: var(--td-rule);
+  background-color: var(--td-paper);
+  color: var(--td-ink);
+  box-shadow: none;
+}
+
+.td-v2 .td-chip[aria-pressed="true"] {
+  border-color: var(--td-signal);
+  background-color: color-mix(in srgb, var(--td-signal) 14%, var(--td-paper));
+  color: var(--td-ink);
+}
+
+.td-v2 .td-catalog-item {
+  color: var(--td-ink);
+}
+
+.td-v2 .td-catalog-item:hover {
+  border-color: var(--td-rule);
+  background-color: color-mix(in srgb, var(--td-rule) 35%, var(--td-paper));
+}
+
+.td-v2 .td-catalog-item[aria-pressed="true"] {
+  border-color: var(--td-signal);
+  background-color: color-mix(in srgb, var(--td-signal) 12%, var(--td-paper));
+  color: var(--td-ink);
+}
+
+.td-v2 .td-catalog-item .font-mono,
+.td-v2 [role="group"] > p .font-mono,
+.td-v2 .td-table tbody td:first-child {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums slashed-zero;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  color: var(--td-ink) !important;
+}
+
+.td-v2 [role="group"] > p .text-neutral-500,
+.td-v2 .td-catalog-item .text-neutral-500,
+.td-v2 .td-catalog-item .text-xs.text-neutral-500 {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  color: var(--td-graphite) !important;
+}
+
+.td-v2 .td-table {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.td-v2 .td-table thead th {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--td-graphite) !important;
+  border-color: var(--td-rule);
+}
+
+.td-v2 .td-table tbody td {
+  color: var(--td-ink) !important;
+  border-color: var(--td-rule);
+}
+
+.td-v2 .td-visualizer-ref {
+  fill: none !important;
+  stroke: var(--td-rule) !important;
+}
+
+.td-v2 .td-visualizer-result {
+  fill: var(--td-ink) !important;
+  stroke: var(--td-ink) !important;
+}
+
+.td-v2 .text-neutral-900,
+.td-v2 .text-neutral-950,
+.td-v2 .text-neutral-800,
+.td-v2 .text-neutral-700,
+.td-v2 .text-neutral-100,
+.td-v2 .text-neutral-50,
+.td-v2 .dark\:text-neutral-100,
+.td-v2 .dark\:text-neutral-50,
+.td-v2 .dark\:text-neutral-200,
+.td-v2 .dark\:text-neutral-300 {
+  color: var(--td-ink);
+}
+
+.td-v2 .font-medium.text-neutral-900,
+.td-v2 .td-catalog-item .font-medium {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  color: var(--td-ink);
 }

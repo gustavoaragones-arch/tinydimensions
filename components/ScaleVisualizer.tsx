@@ -8,6 +8,13 @@ import {
   type ReferenceObject,
   REFERENCE_OBJECTS,
 } from "@/lib/reference-data";
+import {
+  arrowHeadPoints,
+  DIMENSION_EXT_HEIGHT_MM,
+  dimensionLeaderY,
+} from "@/lib/dimension-annotation";
+
+const RULE_STROKE = "var(--td-rule)";
 
 const GAP_MM = 8;
 const PAD_MM = 4;
@@ -37,7 +44,7 @@ function ReferenceVectorFallback({ refObj }: { refObj: ReferenceObject }) {
         cx={0}
         cy={0}
         r={r}
-        className="fill-neutral-200 stroke-neutral-500 dark:fill-neutral-800 dark:stroke-neutral-400"
+        className="td-visualizer-ref fill-neutral-200 stroke-neutral-500 dark:fill-neutral-800 dark:stroke-neutral-400"
         strokeWidth={0.35}
       />
     );
@@ -49,7 +56,7 @@ function ReferenceVectorFallback({ refObj }: { refObj: ReferenceObject }) {
       width={refObj.widthMm}
       height={refObj.heightMm}
       rx={1.5}
-      className="fill-neutral-200 stroke-neutral-500 dark:fill-neutral-800 dark:stroke-neutral-400"
+      className="td-visualizer-ref fill-neutral-200 stroke-neutral-500 dark:fill-neutral-800 dark:stroke-neutral-400"
       strokeWidth={0.35}
     />
   );
@@ -280,9 +287,52 @@ export function ScaleVisualizer({ scaledValueMm, resultLabel = null }: ScaleVisu
                   width={scene.resultW}
                   height={scene.resultH}
                   rx={1}
-                  className="fill-neutral-800 stroke-neutral-950 dark:fill-neutral-100 dark:stroke-neutral-50"
+                  className="td-visualizer-result fill-neutral-800 stroke-neutral-950 dark:fill-neutral-100 dark:stroke-neutral-50"
                   strokeWidth={0.35}
                 />
+                {(() => {
+                  const barLeft = -scene.resultW / 2;
+                  const barRight = scene.resultW / 2;
+                  const barTop = scene.resCenterY - scene.resultH / 2;
+                  const leaderY = dimensionLeaderY(barTop);
+                  const extTop = leaderY - DIMENSION_EXT_HEIGHT_MM;
+                  return (
+                    <g aria-hidden="true">
+                      <line
+                        x1={barLeft}
+                        y1={extTop}
+                        x2={barLeft}
+                        y2={barTop}
+                        stroke={RULE_STROKE}
+                        strokeWidth={0.5}
+                      />
+                      <line
+                        x1={barRight}
+                        y1={extTop}
+                        x2={barRight}
+                        y2={barTop}
+                        stroke={RULE_STROKE}
+                        strokeWidth={0.5}
+                      />
+                      <line
+                        x1={barLeft}
+                        y1={leaderY}
+                        x2={barRight}
+                        y2={leaderY}
+                        stroke={RULE_STROKE}
+                        strokeWidth={0.5}
+                      />
+                      <polygon
+                        points={arrowHeadPoints(barLeft + 0.9, leaderY, "left")}
+                        fill={RULE_STROKE}
+                      />
+                      <polygon
+                        points={arrowHeadPoints(barRight - 0.9, leaderY, "right")}
+                        fill={RULE_STROKE}
+                      />
+                    </g>
+                  );
+                })()}
                 {resultLabel && scene.labelPad > 0 ? (
                   <text
                     x={scene.resultLabelX}

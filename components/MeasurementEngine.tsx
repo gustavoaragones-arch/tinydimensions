@@ -2,6 +2,7 @@
 
 import { useCallback, useId, useMemo, useRef, useState } from "react";
 import type { LengthUnit, ScalePreset } from "@/lib/math-engine";
+import { DimensionReadout } from "@/components/DimensionReadout";
 import { ScalePicker } from "@/components/ScalePicker";
 import { ScaleVisualizer } from "@/components/ScaleVisualizer";
 import {
@@ -180,15 +181,10 @@ export function MeasurementEngine({
               aria-live="polite"
               className="td-readout"
             >
-              {resultLine === null ? (
+              {resultLine === null || secondaryLine === null ? (
                 "—"
               ) : (
-                <span className="block space-y-1">
-                  <span className="block font-medium">{resultLine}</span>
-                  <span className="block text-xs font-normal text-neutral-800 dark:text-neutral-200">
-                    {secondaryLine}
-                  </span>
-                </span>
+                <DimensionReadout primary={resultLine} secondary={secondaryLine} />
               )}
             </output>
           </div>

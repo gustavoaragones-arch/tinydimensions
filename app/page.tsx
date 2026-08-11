@@ -197,8 +197,18 @@ export default function Home() {
             </h2>
             <ul className="list-none space-y-2 pl-0 text-sm">
               <li>
+                <Link href="/guides/reading-scale-ratios" className={linkClass}>
+                  Reading scale ratios: a builder&apos;s guide
+                </Link>
+              </li>
+              <li>
                 <Link href="/catalog" className={linkClass}>
                   Common object dimensions for scale comparison
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides" className={linkClass}>
+                  All guides
                 </Link>
               </li>
             </ul>
