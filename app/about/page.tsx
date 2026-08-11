@@ -184,7 +184,7 @@ export default function AboutPage() {
             Corrections and questions are welcome at{" "}
             <a
               href="mailto:contact@tinydimensions.com"
-              className="font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
+              className="font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
             >
               contact@tinydimensions.com
             </a>

@@ -29,7 +29,7 @@ export default function PrivacyPage() {
             href="https://vercel.com/docs/analytics"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
+            className="font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:decoration-neutral-500 dark:hover:decoration-neutral-300"
           >
             Vercel Analytics
           </a>{" "}

@@ -123,12 +123,10 @@ export default function ScaleCalculatorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="td-v2">
-        <MeasurementWorkspace
-          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Scale Calculator" }]}
-          after={<AvailableScalesSection />}
-        />
-      </div>
+      <MeasurementWorkspace
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Scale Calculator" }]}
+        after={<AvailableScalesSection />}
+      />
     </>
   );
 }

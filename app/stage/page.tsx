@@ -62,11 +62,11 @@ const jsonLd = {
 };
 
 const linkClass =
-  "font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
+  "font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
 
 function StageBelowFold() {
   return (
-    <div className="mx-auto mt-10 max-w-2xl border-t border-neutral-200 pt-8 text-sm leading-relaxed text-neutral-700 dark:border-neutral-800 dark:text-neutral-300">
+    <div className="td-prose mx-auto mt-10 max-w-2xl border-t border-neutral-200 pt-8 leading-relaxed dark:border-neutral-800">
       <section aria-labelledby="angle-heading" className="space-y-3">
         <h2 id="angle-heading" className={h2Class}>
           What viewing angle changes

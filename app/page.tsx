@@ -35,7 +35,7 @@ const jsonLd = {
 };
 
 const linkClass =
-  "font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
+  "font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
 
 export default function Home() {
   return (
@@ -44,13 +44,11 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="flex flex-1 flex-col bg-neutral-50 dark:bg-neutral-950">
-        <div className="mx-auto w-full max-w-2xl px-6 py-12 text-neutral-900 dark:text-neutral-100">
+      <main className="flex flex-1 flex-col">
+        <div className="td-prose mx-auto w-full max-w-2xl px-6 py-12">
           <header>
-            <h1 className="mb-4 font-sans text-2xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-50">
-              Precision tools for scale model builders
-            </h1>
-            <p className="mb-10 max-w-prose text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+            <h1 className="mb-4">Precision tools for scale model builders</h1>
+            <p className="mb-10 max-w-prose leading-relaxed">
               Convert the dimensions, block the scene, build it. A scale calculator that handles
               metric and imperial in the same calculation, and a staging tool that shows you the
               scene from where it will actually be seen.
@@ -67,8 +65,8 @@ export default function Home() {
                 href="/scale-calculator"
                 className="td-panel block p-5 transition-shadow hover:shadow-md dark:bg-neutral-900/50"
               >
-                <h3 className={`${h3Class} text-base`}>Scale Calculator</h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+                <h3>Scale Calculator</h3>
+                <p className="mt-2 leading-relaxed">
                   Enter a real-world dimension and a ratio, get the scaled figure to three decimal
                   places. Input in feet, output in millimetres, or any other combination — the
                   conversion and the scaling happen in one step rather than two. Presets cover
@@ -85,8 +83,8 @@ export default function Home() {
                 href="/stage"
                 className="td-panel block p-5 transition-shadow hover:shadow-md dark:bg-neutral-900/50"
               >
-                <h3 className={h3Class}>Stage</h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+                <h3>Stage</h3>
+                <p className="mt-2 leading-relaxed">
                   Block out a diorama with proxy volumes, set the dimensions, then look at it from
                   where it will actually be viewed: a shelf above eye level, a competition table you
                   stand over, a display case. Composition overlays are available as optional
@@ -103,24 +101,24 @@ export default function Home() {
 
             <div className="space-y-3">
               <h3 className={h3Class}>Reading a scale ratio</h3>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 A scale ratio is a division instruction. In 1:87, one unit on the model represents
                 87 of the same unit in the real world — 87 millimetres becomes 1 millimetre, 87
                 feet becomes 1 foot. The units on both sides are always identical, which is what
                 makes the ratio itself unitless and portable between measurement systems.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 Written as a fraction, 1/87, it behaves the same way: multiply a real dimension by
                 the fraction to scale down, divide to scale up. Larger denominators mean smaller
                 models. 1:12 is a doll&apos;s house; 1:160 fits a mainline locomotive in the palm
                 of your hand.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 The ratio tells you nothing about the size of the finished piece on its own. A 1:35
                 figure is roughly 50 mm tall; a 1:35 tank is roughly 250 mm long. Same scale, very
                 different bench space.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 For the four notations that ratio gets written in, why so many of the standard
                 numbers are awkward, and which scales sit close enough to confuse, see{" "}
                 <Link href="/guides/reading-scale-ratios" className={linkClass}>
@@ -132,12 +130,12 @@ export default function Home() {
 
             <div className="space-y-3">
               <h3 className={h3Class}>Where mixed units go wrong</h3>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 Most scale errors are not arithmetic errors. They are unit errors that survive the
                 arithmetic intact.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">The common shapes:</p>
-              <ul className="list-none space-y-3 pl-0 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">The common shapes:</p>
+              <ul className="list-none space-y-3 pl-0 leading-relaxed">
                 <li>
                   <strong className="font-semibold text-neutral-900 dark:text-neutral-100">
                     Converting and scaling as separate operations.
@@ -161,7 +159,7 @@ export default function Home() {
                   enough apart to be obvious side by side on a shelf. So are 1:48 and 1:43.
                 </li>
               </ul>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 The defence is doing the whole conversion in one operation, and keeping full
                 precision until the moment you actually read a number off. Rounding early is where
                 the millimetre goes.
@@ -170,17 +168,17 @@ export default function Home() {
 
             <div className="space-y-3">
               <h3 className={h3Class}>Scale, bases, and display height</h3>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 Scaled dimensions determine the model. They do not determine the base, and they do
                 not determine what the finished piece looks like to someone standing in front of
                 it.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 Base size is a composition decision that starts from the model&apos;s footprint and
                 adds working room — space for groundwork, for a second figure, for the eye to settle
                 before it reaches the edge. There is no ratio that produces it.
               </p>
-              <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+              <p className="leading-relaxed">
                 Display height is the part most often left until the model is finished. A diorama
                 built flat on a bench and then placed on a shelf at 1600 mm is seen from below, at
                 an angle it was never composed for. Elements that read clearly from above disappear

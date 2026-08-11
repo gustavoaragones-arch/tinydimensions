@@ -37,7 +37,7 @@ const jsonLd = {
 };
 
 const linkClass =
-  "font-medium text-neutral-900 underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:text-neutral-100 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
+  "font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-600 dark:decoration-neutral-500 dark:hover:decoration-neutral-300";
 
 export default function GuidesIndexPage() {
   return (

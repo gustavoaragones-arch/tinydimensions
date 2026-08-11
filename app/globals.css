@@ -11,7 +11,7 @@
   --td-surface-muted: rgb(250 250 250);
   --td-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
   --td-shadow-focus: 0 1px 3px rgb(0 0 0 / 0.08);
-  /* v2 direction tokens (inert until .td-v2 applies them) */
+  /* Visual direction tokens — see the site-wide rules further down this file. */
   --font-body: var(--font-display);
   --td-paper: #f3f5f6;
   --td-ink: #12171a;
@@ -46,9 +46,9 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  background: var(--td-paper);
+  color: var(--td-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
 /**
@@ -448,130 +448,188 @@ body {
 }
 
 /**
- * Visual direction v2 — scoped to /scale-calculator via .td-v2 wrapper only.
+ * Visual direction — site-wide type scale and colour tokens (Stage 2).
+ *
+ * Stage 1 scoped all of this to /scale-calculator via a .td-v2 wrapper while it was
+ * being tested against one route. Every route now opts in by default, so the wrapper
+ * is gone and these are plain rules. They are deliberately kept outside any @layer:
+ * Tailwind's own output lives in the theme/base/components/utilities layers declared by
+ * @import "tailwindcss", and unlayered rules always win over layered ones regardless of
+ * selector specificity — that is what lets a plain `h1 { }` here override a component's
+ * existing `text-2xl` utility class without an !important arms race. Component classes
+ * that were already global (.td-panel, .td-field, .td-table, etc., declared in the
+ * @layer components block above) keep the same relationship: this section overrides them
+ * the same way it overrides Tailwind's utilities.
  */
-.td-v2 {
+:root {
   --font-mono: var(--font-td-mono);
+}
+
+main {
   background-color: var(--td-paper);
   color: var(--td-ink);
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
-.td-v2 main {
-  background-color: var(--td-paper) !important;
-  color: var(--td-ink);
+header,
+footer {
+  background-color: var(--td-paper);
+  border-color: var(--td-rule);
 }
 
-.td-v2 a:not([class*="td-btn"]) {
+a:not([class*="td-btn"]) {
   color: var(--td-signal);
 }
 
-.td-v2 .td-measure {
+/* Nav chrome opts out of the default link colour: a persistent nav bar reads as
+   structure, not as a mid-sentence invitation to click, so it stays ink at rest and
+   only goes signal on actual interaction — the same resting/interactive split as
+   .td-chip and .td-catalog-item elsewhere in this file. Written as `a.td-nav-link` so
+   its specificity ties the rule above and wins on source order, not !important. */
+a.td-nav-link {
+  color: var(--td-ink);
+}
+
+a.td-nav-link:hover,
+a.td-nav-link:focus-visible {
+  color: var(--td-signal);
+}
+
+.td-measure {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-variant-numeric: tabular-nums slashed-zero;
   font-feature-settings: "tnum" 1, "zero" 1;
 }
 
-.td-v2 h1 {
+h1 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 32px;
   font-weight: 600;
   font-variation-settings: "wdth" 112;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--td-ink) !important;
+  color: var(--td-ink);
 }
 
 @media (max-width: 639px) {
-  .td-v2 h1 {
+  h1 {
     font-size: 28px;
   }
 }
 
-.td-v2 h2 {
+h2 {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: 22px;
   font-weight: 600;
   font-variation-settings: "wdth" 112;
   line-height: 1.25;
-  color: var(--td-ink) !important;
+  color: var(--td-ink);
 }
 
-.td-v2 article > header > p {
+/* H3 has no calculator precedent — the tool only needed h1/h2/.td-label. Long-form
+   routes need a real third rung for article subsections, sized between h2 and body. */
+h3 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  font-variation-settings: "wdth" 108;
+  line-height: 1.3;
+  color: var(--td-ink);
+}
+
+article > header > p {
   font-size: 16px;
   line-height: 1.6;
-  color: var(--td-ink) !important;
+  color: var(--td-ink);
 }
 
-.td-v2 section > p {
+/* Body/intro copy. Font-size/line-height are set once on the container and inherited;
+   color is set directly on p/li too, not left to inheritance — several of these prose
+   blocks sit inside a card-style <Link> (homepage tool cards), and without a direct
+   rule the paragraph would otherwise inherit that ancestor anchor's --td-signal instead
+   of --td-ink. Elements with their own explicit styling (.td-label, .td-caption, table
+   cells) are unaffected: see the !important note on .td-caption below. */
+.td-prose {
   font-size: 16px;
   line-height: 1.6;
-  color: var(--td-graphite);
+  color: var(--td-ink);
 }
 
-.td-v2 .td-label {
-  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--td-graphite) !important;
+.td-prose p,
+.td-prose li {
+  color: var(--td-ink);
 }
 
-.td-v2 .text-xs.leading-relaxed,
-.td-v2 p.text-xs,
-.td-v2 .text-xs.text-neutral-600,
-.td-v2 .text-xs.text-neutral-700,
-.td-v2 .text-xs.text-neutral-500,
-.td-v2 .text-sm.text-neutral-700 {
+.td-prose strong {
+  font-weight: 600;
+  color: var(--td-ink);
+}
+
+/* !important: a caption is sometimes nested inside .td-prose (e.g. the eyebrow/contact
+   paragraphs on legal pages), and .td-prose p sets colour directly rather than by
+   inheritance, so a plain specificity tie-break isn't reliable across every case. A
+   caption should always read as graphite regardless of where it sits. */
+.td-caption {
   font-size: 13px;
   line-height: 1.5;
   color: var(--td-graphite) !important;
 }
 
-.td-v2 .border-neutral-200,
-.td-v2 .border-neutral-200\/90,
-.td-v2 .dark\:border-neutral-800,
-.td-v2 .dark\:border-neutral-700,
-.td-v2 .dark\:border-neutral-800\/80 {
-  border-color: var(--td-rule) !important;
+.td-label {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--td-graphite);
 }
 
-.td-v2 .td-panel {
+.border-neutral-100,
+.border-neutral-200,
+.border-neutral-200\/90,
+.dark\:border-neutral-800,
+.dark\:border-neutral-700,
+.dark\:border-neutral-800\/80 {
+  border-color: var(--td-rule);
+}
+
+.td-panel {
   border-color: var(--td-rule);
   background-color: var(--td-paper);
   box-shadow: none;
 }
 
-.td-v2 .dark\:bg-neutral-900\/50 {
-  background-color: var(--td-paper) !important;
+.bg-white,
+.bg-neutral-50,
+.dark\:bg-neutral-950,
+.dark\:bg-neutral-900\/50 {
+  background-color: var(--td-paper);
 }
 
-.td-v2 .td-field {
+.td-field {
   border-color: var(--td-rule);
   background-color: var(--td-paper);
   color: var(--td-ink);
   box-shadow: none;
 }
 
-.td-v2 .td-field--mono {
+.td-field--mono {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-variant-numeric: tabular-nums slashed-zero;
   font-feature-settings: "tnum" 1, "zero" 1;
 }
 
-.td-v2 .td-field:focus-visible,
-.td-v2 .td-btn-icon:focus-visible,
-.td-v2 .td-chip:focus-visible,
-.td-v2 .td-catalog-item:focus-visible,
-.td-v2 .td-summary:focus-visible,
-.td-v2 .td-checkbox:focus-visible {
+.td-field:focus-visible,
+.td-btn-icon:focus-visible,
+.td-chip:focus-visible,
+.td-catalog-item:focus-visible,
+.td-summary:focus-visible,
+.td-checkbox:focus-visible {
   outline: none;
   border-color: var(--td-signal);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--td-signal) 35%, transparent);
 }
 
-.td-v2 .td-readout {
+.td-readout {
   min-height: auto;
   border: none;
   background: transparent;
@@ -581,7 +639,7 @@ body {
   color: var(--td-ink);
 }
 
-.td-v2 {
+:root {
   /* Effective weight for the dimension annotation (Task 3a). Started at --td-ink / 1px;
      that is the value that actually resolves at 40px mono, so it stays here rather than
      dropping to --td-graphite. Change this one variable, not the individual rules below. */
@@ -590,33 +648,33 @@ body {
   --td-dim-tick-height: 18px;
 }
 
-.td-v2 .td-dimension-readout__annotation {
+.td-dimension-readout__annotation {
   display: flex;
   width: 100%;
   align-items: center;
 }
 
-.td-v2 .td-dimension-tick {
+.td-dimension-tick {
   flex: 0 0 auto;
   width: var(--td-dim-weight);
   height: var(--td-dim-tick-height);
   background-color: var(--td-dim-color);
 }
 
-.td-v2 .td-dimension-leader {
+.td-dimension-leader {
   display: flex;
   flex: 1 1 0;
   min-width: 1rem;
   align-items: center;
 }
 
-.td-v2 .td-dimension-line {
+.td-dimension-line {
   flex: 1 1 auto;
   height: 0;
   border-top: var(--td-dim-weight) solid var(--td-dim-color);
 }
 
-.td-v2 .td-dimension-arrow {
+.td-dimension-arrow {
   flex: 0 0 auto;
   width: 0;
   height: 0;
@@ -624,15 +682,15 @@ body {
   border-bottom: 4px solid transparent;
 }
 
-.td-v2 .td-dimension-arrow--left {
+.td-dimension-arrow--left {
   border-right: 6px solid var(--td-dim-color);
 }
 
-.td-v2 .td-dimension-arrow--right {
+.td-dimension-arrow--right {
   border-left: 6px solid var(--td-dim-color);
 }
 
-.td-v2 .td-dimension-readout__value {
+.td-dimension-readout__value {
   flex: 0 0 auto;
   padding: 0 0.75rem;
   font-size: 40px;
@@ -642,7 +700,7 @@ body {
   white-space: nowrap;
 }
 
-.td-v2 .td-dimension-readout__secondary {
+.td-dimension-readout__secondary {
   margin: 0.5rem 0 0;
   font-size: 15px;
   font-weight: 400;
@@ -650,107 +708,106 @@ body {
   color: var(--td-ink);
 }
 
-.td-v2 .td-btn-icon {
+.td-btn-icon {
   border-color: var(--td-rule);
   background-color: var(--td-paper);
   color: var(--td-ink);
   box-shadow: none;
 }
 
-.td-v2 .td-btn-icon:hover:not(:disabled) {
+.td-btn-icon:hover:not(:disabled) {
   border-color: var(--td-signal);
   background-color: color-mix(in srgb, var(--td-signal) 8%, var(--td-paper));
 }
 
-.td-v2 .td-chip {
+.td-chip {
   border-color: var(--td-rule);
   background-color: var(--td-paper);
   color: var(--td-ink);
   box-shadow: none;
 }
 
-.td-v2 .td-chip[aria-pressed="true"] {
+.td-chip[aria-pressed="true"] {
   border-color: var(--td-signal);
   background-color: color-mix(in srgb, var(--td-signal) 14%, var(--td-paper));
   color: var(--td-ink);
 }
 
-.td-v2 .td-catalog-item {
+.td-catalog-item {
   color: var(--td-ink);
 }
 
-.td-v2 .td-catalog-item:hover {
+.td-catalog-item:hover {
   border-color: var(--td-rule);
   background-color: color-mix(in srgb, var(--td-rule) 35%, var(--td-paper));
 }
 
-.td-v2 .td-catalog-item[aria-pressed="true"] {
+.td-catalog-item[aria-pressed="true"] {
   border-color: var(--td-signal);
   background-color: color-mix(in srgb, var(--td-signal) 12%, var(--td-paper));
   color: var(--td-ink);
 }
 
-.td-v2 .td-catalog-item .font-mono,
-.td-v2 [role="group"] > p .font-mono,
-.td-v2 .td-table tbody td:first-child {
+.td-catalog-item .font-mono,
+[role="group"] > p .font-mono,
+.td-table tbody td:first-child {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 14px;
   font-variant-numeric: tabular-nums slashed-zero;
   font-feature-settings: "tnum" 1, "zero" 1;
-  color: var(--td-ink) !important;
+  color: var(--td-ink);
 }
 
-.td-v2 [role="group"] > p .text-neutral-500,
-.td-v2 .td-catalog-item .text-neutral-500,
-.td-v2 .td-catalog-item .text-xs.text-neutral-500 {
+[role="group"] > p .text-neutral-500,
+.td-catalog-item .text-neutral-500,
+.td-catalog-item .text-xs.text-neutral-500 {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  color: var(--td-graphite) !important;
+  color: var(--td-graphite);
 }
 
-.td-v2 .td-table {
+.td-table {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
 }
 
-.td-v2 .td-table thead th {
+.td-table thead th {
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--td-graphite) !important;
+  color: var(--td-graphite);
   border-color: var(--td-rule);
 }
 
-.td-v2 .td-table tbody td {
-  color: var(--td-ink) !important;
+.td-table tbody td {
+  color: var(--td-ink);
   border-color: var(--td-rule);
 }
 
-.td-v2 .td-visualizer-ref {
-  fill: none !important;
-  stroke: var(--td-rule) !important;
+.td-visualizer-ref {
+  fill: none;
+  stroke: var(--td-rule);
 }
 
-.td-v2 .td-visualizer-result {
-  fill: var(--td-ink) !important;
-  stroke: var(--td-ink) !important;
+.td-visualizer-result {
+  fill: var(--td-ink);
+  stroke: var(--td-ink);
 }
 
-.td-v2 .text-neutral-900,
-.td-v2 .text-neutral-950,
-.td-v2 .text-neutral-800,
-.td-v2 .text-neutral-700,
-.td-v2 .text-neutral-100,
-.td-v2 .text-neutral-50,
-.td-v2 .dark\:text-neutral-100,
-.td-v2 .dark\:text-neutral-50,
-.td-v2 .dark\:text-neutral-200,
-.td-v2 .dark\:text-neutral-300 {
+.text-neutral-900,
+.text-neutral-950,
+.text-neutral-800,
+.text-neutral-700,
+.text-neutral-100,
+.text-neutral-50,
+.dark\:text-neutral-100,
+.dark\:text-neutral-50,
+.dark\:text-neutral-200,
+.dark\:text-neutral-300 {
   color: var(--td-ink);
 }
 
-.td-v2 .font-medium.text-neutral-900,
-.td-v2 .td-catalog-item .font-medium {
+.td-catalog-item .font-medium {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   color: var(--td-ink);
 }

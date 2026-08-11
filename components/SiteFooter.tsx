@@ -1,51 +1,49 @@
 import Link from "next/link";
 
+const footerNavLinkClass = "td-nav-link hover:underline";
+
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-neutral-200 bg-white text-neutral-800 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200">
+    <footer className="mt-auto border-t border-neutral-200 dark:border-neutral-800">
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-6">
-        <p className="text-sm font-medium tracking-tight text-neutral-900 lowercase dark:text-neutral-100">
-          tinydimensions
-        </p>
-        <p className="mt-2 max-w-2xl text-xs text-neutral-700 dark:text-neutral-300">
+        <p className="text-sm font-medium tracking-tight lowercase">tinydimensions</p>
+        <p className="td-caption mt-2 max-w-2xl">
           Results are for hobbyist and educational use. Verify dimensions before professional
           construction.
         </p>
         <nav
-          className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-neutral-700 underline-offset-4 dark:text-neutral-300"
+          className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm underline-offset-4"
           aria-label="Site and legal"
         >
-          <Link className="hover:underline" href="/">
+          <Link className={footerNavLinkClass} href="/">
             Home
           </Link>
-          <Link className="hover:underline" href="/scale-calculator">
+          <Link className={footerNavLinkClass} href="/scale-calculator">
             Calculator
           </Link>
-          <Link className="hover:underline" href="/stage">
+          <Link className={footerNavLinkClass} href="/stage">
             Stage
           </Link>
-          <Link className="hover:underline" href="/reference">
+          <Link className={footerNavLinkClass} href="/reference">
             Reference
           </Link>
-          <Link className="hover:underline" href="/guides">
+          <Link className={footerNavLinkClass} href="/guides">
             Guides
           </Link>
-          <Link className="hover:underline" href="/about">
+          <Link className={footerNavLinkClass} href="/about">
             About
           </Link>
-          <Link className="hover:underline" href="/terms">
+          <Link className={footerNavLinkClass} href="/terms">
             Terms
           </Link>
-          <Link className="hover:underline" href="/privacy">
+          <Link className={footerNavLinkClass} href="/privacy">
             Privacy
           </Link>
-          <Link className="hover:underline" href="/terms#disclaimer-heading">
+          <Link className={footerNavLinkClass} href="/terms#disclaimer-heading">
             Disclaimer
           </Link>
         </nav>
-        <p className="mt-6 text-xs text-neutral-500 dark:text-neutral-400">
-          © 2026 Albor Digital LLC
-        </p>
+        <p className="td-caption mt-6">© 2026 Albor Digital LLC</p>
       </div>
     </footer>
   );
