@@ -202,7 +202,7 @@ export default function Home() {
                 </Link>
               </li>
               <li>
-                <Link href="/catalog" className={linkClass}>
+                <Link href="/reference" className={linkClass}>
                   Common object dimensions for scale comparison
                 </Link>
               </li>

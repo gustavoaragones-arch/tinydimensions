@@ -24,8 +24,8 @@ export function SiteFooter() {
           <Link className="hover:underline" href="/stage">
             Stage
           </Link>
-          <Link className="hover:underline" href="/catalog">
-            Catalog
+          <Link className="hover:underline" href="/reference">
+            Reference
           </Link>
           <Link className="hover:underline" href="/guides">
             Guides

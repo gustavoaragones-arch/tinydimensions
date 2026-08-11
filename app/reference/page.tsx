@@ -7,13 +7,13 @@ import { getSiteUrl } from "@/lib/site-url";
 const base = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Catalog",
+  title: "Reference",
   description:
     "Standard real-world reference lengths used in TinyDimensions — doors, ceilings, vehicles, and tabletop gaming.",
-  alternates: { canonical: `${base}/catalog` },
+  alternates: { canonical: `${base}/reference` },
 };
 
-export default function CatalogPage() {
+export default function ReferencePage() {
   return (
     <LongFormShell title="Standard object catalog">
       <p>

@@ -35,8 +35,8 @@ export function SiteHeader() {
             <Link href="/stage" className={navLinkClass}>
               Stage
             </Link>
-            <Link href="/catalog" className={navLinkClass}>
-              Catalog
+            <Link href="/reference" className={navLinkClass}>
+              Reference
             </Link>
             <Link href="/guides" className={navLinkClass}>
               Guides

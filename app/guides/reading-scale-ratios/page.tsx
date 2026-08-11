@@ -342,7 +342,7 @@ export default function ReadingScaleRatiosPage() {
           </div>
           <p>
             To check a finished dimension against a familiar object at the same scale, see the{" "}
-            <Link href="/catalog" className={linkClass}>
+            <Link href="/reference" className={linkClass}>
               standard object catalog
             </Link>
             .
