@@ -85,7 +85,7 @@ export const StageViewport = forwardRef<StageViewportHandle, StageViewportProps>
                 type="button"
                 onClick={() => onTransformModeChange("translate")}
                 aria-pressed={transformMode === "translate"}
-                className="td-chip !min-h-0 !px-3 !py-1.5 text-xs"
+                className="td-viewport-control !min-h-0 !px-3 !py-1.5 text-xs"
               >
                 Move
               </button>
@@ -93,7 +93,7 @@ export const StageViewport = forwardRef<StageViewportHandle, StageViewportProps>
                 type="button"
                 onClick={() => onTransformModeChange("rotate")}
                 aria-pressed={transformMode === "rotate"}
-                className="td-chip !min-h-0 !px-3 !py-1.5 text-xs"
+                className="td-viewport-control !min-h-0 !px-3 !py-1.5 text-xs"
               >
                 Rotate
               </button>
@@ -101,7 +101,7 @@ export const StageViewport = forwardRef<StageViewportHandle, StageViewportProps>
 
             <output
               aria-live="polite"
-              className="absolute bottom-3 left-3 rounded-md bg-neutral-950/70 px-2.5 py-1 font-mono text-xs tabular-nums text-neutral-50"
+              className="td-viewport-readout absolute bottom-3 left-3 rounded-md px-2.5 py-1 font-mono text-xs tabular-nums"
             >
               Viewing distance: {formatFixed3(viewer.viewingDistanceMm)} mm
             </output>
@@ -111,7 +111,7 @@ export const StageViewport = forwardRef<StageViewportHandle, StageViewportProps>
             <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
               3D viewport unavailable
             </p>
-            <p className="max-w-xs text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
+            <p className="max-w-xs text-xs leading-relaxed text-[var(--td-graphite)]">
               This browser or device doesn&apos;t support WebGL. The block table and viewer controls
               below still work — dimensions and positions are unaffected.
             </p>

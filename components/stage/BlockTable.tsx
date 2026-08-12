@@ -20,6 +20,32 @@ const ROLE_OPTIONS: { value: BlockRole; label: string }[] = [
   { value: "terrain", label: "Terrain" },
 ];
 
+const GETTING_STARTED_STEPS: { lead: string; rest: string }[] = [
+  {
+    lead: "Set the scale and base.",
+    rest: "Pick your ratio in Scene setup, then enter the base you're building on.",
+  },
+  {
+    lead: "Add a block.",
+    rest: "Enter its real-world width, depth, and height. Stage divides by the ratio for you.",
+  },
+  {
+    lead: "Place it.",
+    rest: "Drag it in the view, or type its position on the base. Both write to the same numbers.",
+  },
+  {
+    lead: "Choose where it will be seen.",
+    rest: "Pick a viewing position, or enter your own eye height, surface height, and distance.",
+  },
+  {
+    lead: "Export when you want it at the bench.",
+    rest: "PDF gives you every viewing position you've looked at, plus the dimensions.",
+  },
+];
+
+const emptyListClass =
+  "list-decimal space-y-2.5 pl-4 text-[13px] leading-snug [font-family:var(--font-display),ui-sans-serif,system-ui,sans-serif] [&>li]:text-[var(--td-graphite)] [&_strong]:font-semibold [&_strong]:text-[var(--td-ink)]";
+
 export function BlockTable({
   scene,
   selectedBlockId,
@@ -39,9 +65,21 @@ export function BlockTable({
       </div>
 
       {scene.blocks.length === 0 ? (
-        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-          No blocks yet. Add one to start blocking out the scene.
-        </p>
+        <div className="flex flex-col gap-3 lg:min-h-[15rem]">
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            No blocks yet. Add one to start blocking out the scene.
+          </p>
+          <h3 className="text-[13px] font-semibold leading-snug text-[var(--td-ink)] [font-family:var(--font-display),ui-sans-serif,system-ui,sans-serif]">
+            Getting started
+          </h3>
+          <ol className={`flex-1 ${emptyListClass}`}>
+            {GETTING_STARTED_STEPS.map((step) => (
+              <li key={step.lead}>
+                <strong>{step.lead}</strong> {step.rest}
+              </li>
+            ))}
+          </ol>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="td-table">

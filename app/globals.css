@@ -18,6 +18,15 @@
   --td-graphite: #5c666d;
   --td-rule: #c6cdd2;
   --td-signal: #1d5f8a;
+  /* Stage in-viewport controls (StageViewport.tsx): fixed, never redefined in the
+     dark-mode block below. These sit on top of a WebGL canvas that does not itself
+     change with page theme, so a token that flips would be correct in one mode and
+     wrong in the other. --td-viewport-accent is the dark-mode value of --td-signal,
+     pinned rather than referenced, since it is the one that reads against a
+     permanently-dark control surface. */
+  --td-viewport-surface: #12171a;
+  --td-viewport-ink: #f3f5f6;
+  --td-viewport-accent: #5fa8d8;
 }
 
 @theme inline {
@@ -419,6 +428,61 @@ body {
     .td-checkbox {
       accent-color: rgb(245 245 245);
     }
+  }
+
+  /**
+   * Stage in-viewport controls (StageViewport.tsx): float directly over the WebGL
+   * canvas rather than the page. The canvas background is fixed and does not flip
+   * with light/dark mode, and the rendered base plane behind these controls changes
+   * colour, size, and position as the user orbits or resizes the base - so these can
+   * take contrast from neither --td-paper/--td-ink (which flip) nor the canvas (which
+   * is never fixed). Fixed, self-contained values only - deliberately no dark-mode
+   * override block for either class, so they read identically in both page modes.
+   */
+  .td-viewport-control {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background-color: var(--td-viewport-surface);
+    padding: 0 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+    color: var(--td-viewport-ink);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .td-viewport-control:hover {
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  /* Offset outline rather than a colour change on the button itself: pressed and
+     unpressed states have different fills (surface vs accent), and no single colour
+     clears 3:1 against both. An outline pushed clear of the button reads against the
+     canvas ground behind it instead, which is the same in both states - so one colour
+     covers both without a compromise. --td-viewport-surface (already the unpressed
+     fill) clears 3:1 against the canvas background, the base plane, and the grid lines. */
+  .td-viewport-control:focus-visible {
+    outline: 2px solid var(--td-viewport-surface);
+    outline-offset: 2px;
+  }
+
+  .td-viewport-control[aria-pressed="true"] {
+    background-color: var(--td-viewport-accent);
+    border-color: var(--td-viewport-accent);
+    color: var(--td-viewport-surface);
+  }
+
+  .td-viewport-readout {
+    background-color: var(--td-viewport-surface);
+    color: var(--td-viewport-ink);
   }
 }
 
